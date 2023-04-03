@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./assets/css/vintage_platform.css">
+    <script src="https://kit.fontawesome.com/e67d34325c.js" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="nav">
+        <h1 class="nav__title">
+            <a href="index.html">Advintage</a>
+        </h1>
+    </div>
+    <div class="item-wrapper">
+        <div class="item-box">
+            <div class="item-box__img">
+                <img src="assets/2992063_1_125.jpg">
+            </div>
+            <div class="item-box__contents">
+                <div class="item-box__content">
+                    <span>title</span>
+                </div>
+                <div class="item-box__content">
+                    <span>1,000</span>
+                </div>
+            </div>
+        </div>
+        <div class="item-box">
+            <div class="item-box__img">
+                <img src="assets/2992063_1_125.jpg">
+            </div>
+            <div class="item-box__contents">
+                <div class="item-box__content">
+                    <span>title</span>
+                </div>
+                <div class="item-box__content">
+                    <span>1,000</span>
+                </div>
+            </div>
+        </div>
+        <div class="item-box">
+            <div class="item-box__img">
+                <img src="assets/2992063_1_125.jpg">
+            </div>
+            <div class="item-box__contents">
+                <div class="item-box__content">
+                    <span>title</span>
+                </div>
+                <div class="item-box__content">
+                    <span>1,000</span>
+                </div>
+            </div>
+        </div>
+        <div class="item-box">
+            <div class="item-box__img">
+                <img src="assets/2992063_1_125.jpg">
+            </div>
+            <div class="item-box__contents">
+                <div class="item-box__content">
+                    <span>title</span>
+                </div>
+                <div class="item-box__content">
+                    <span>1,000</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="item-modal-wrapper invisible">
+        <div class="item-modal">
+            <div class="item-modal__img">
+                <img src="assets/cardigan.jpeg"/>
+            </div>
+            <div class="item-modal__info">
+                <div>
+                    <i class="fa-solid fa-xmark fa-2xl" id="exit"></i>
+                </div>
+                <ul>
+                    <li>
+                        <div class="item-modal__info__contents" id="title">건지 울른스 가디건</div>
+                    </li>
+                    <li>
+                        <div class="item-modal__info__contents" id="price">1,000원</div>
+                    </li>
+                </ul>
+                <table class="item-modal__info__size">
+                    <th>총장</th>
+                    <th>어깨너비</th>
+                    <th>가슴단면</th>
+                    <th>소매길이</th>
+                    <tr>
+                        <td>78cm</td>
+                        <td>58.5cm</td>
+                        <td>61cm</td>
+                        <td>56.5cm</td>
+                    </tr>
+                </table>
+                <button>Buy</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDo5bC-RBUsX8xBR4i3YBDImhorl5j9Nxc",
+            authDomain: "advintage-d5f8c.firebaseapp.com",
+            databaseURL: "https://advintage-d5f8c-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "advintage-d5f8c",
+            storageBucket: "advintage-d5f8c.appspot.com",
+            messagingSenderId: "40587996397",
+            appId: "1:40587996397:web:235937e2ded956f7e930e4",
+            measurementId: "G-67L1HC3RTZ"
+        };
+        firebase.initializeApp(firebaseConfig);
+   </script>
+   <script>
+        const db = firebase.firestore();
+        db.collection('products').get().then((result) => {
+            result.forEach((doc) => {
+                console.log(doc.data());
+            });
+        })
+   </script>
+</body>
+</html>

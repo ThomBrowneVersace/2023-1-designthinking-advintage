@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./assets/css/sell_my_vintage.css">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/e67d34325c.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="video-wrapper">
+        <video muted autoplay loop id="background-video">
+            <source src="assets/background_video.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="main">
+        <a id="goHome" href="index.html">
+            <i class="fa-solid fa-arrow-left fa-xl"></i>
+        </a>
+        <p class="main__notice">아래 주소로 옷을 보내주세요.</p>
+        <div class="main__copy">
+            <p>서울특별시 광진구 능동로 209 세종대학교</p>
+            <textarea>서울특별시 광진구 능동로 209 세종대학교</textarea>
+            <i class="fa-regular fa-copy" id="copy"></i>
+        </div>
+        <div class="main__link-wrapper">
+            <nav>
+                <div class="pick-up-link">
+                    <a href="https://www.cjlogistics.com/ko/tool/parcel/reservation-general">CJ</a>
+                </div>
+                <div class="pick-up-link">
+                    <a href="https://www.lotteglogis.com/home/reservation/delivery/index">롯데</a>
+                </div>
+                <div class="pick-up-link">
+                    <a href="https://www.hanjin.com/kor/CMS/DeliveryMgr/Reserve1.do?mCode=MN023">한진</a>
+                </div>
+                <div class="pick-up-link">
+                    <a href="https://parcel.epost.go.kr/auth.EpostLogin.parcel">우체국</a>
+                </div>
+                <div class="pick-up-link">
+                    <a href="https://www.ilogen.com/web/reservation/reserve">로젠</a>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <script>
+        const adVintageAdress = document.querySelector('.main__copy textarea');
+        const copyBtn = document.getElementById('copy');
+        copyBtn.addEventListener('click', () => {
+            adVintageAdress.select();
+            document.execCommand('copy');
+        })
+    </script>
+</body>
+</html>
