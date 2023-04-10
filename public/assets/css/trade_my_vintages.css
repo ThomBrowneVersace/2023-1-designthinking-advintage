@@ -13,19 +13,27 @@ body {
 
 .nav {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     height: 32px;
     padding: 23px;
     background-color: black;
-    font-size: 30px;
 }
 
 .nav__title {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 30px;
 }
 
 .nav__title  a {
     text-decoration: none;
     color: white;
+}
+
+.nav_btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

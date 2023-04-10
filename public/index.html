@@ -8,12 +8,37 @@
     <title>Document</title>
 </head>
 <body>
+    <template id="login-template">
+        <div class="nav__btn">
+            <a href="sign_up.html">Log in</a>
+        </div>
+        <div class="nav__btn">
+            <a href="sign_up.html">Sign up</a>
+        </div>
+    </template>
+    <template id="logout-template">
+
+        <div class="nav__btn">
+            <a href="sign_up.html">My Page</a>
+        </div>
+        <div class="nav__btn" id="log-out-btn">
+            <a href="sign_up.html">Log out</a>
+        </div>
+    </template>
     <div class="video-wrapper">
         <video muted autoplay loop id="background-video">
             <source src="assets/background_video.mp4" type="video/mp4">
         </video>
     </div>
     <header class="main">
+        <div class="nav">
+            <div class="nav__btn">
+                <a href="sign_up.html">Log in</a>
+            </div>
+            <div class="nav__btn">
+                <a href="sign_up.html">Sign up</a>
+            </div>
+        </div>
         <div class="main__title">
             <h1>Advintage</h1>
         </div>
@@ -32,5 +57,6 @@
             </div>
         </nav>
     </header>
+    <script src="./assets/js/index.js" defer type="module"></script>
 </body>
 </html>

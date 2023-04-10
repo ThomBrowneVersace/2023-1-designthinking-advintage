@@ -127,6 +127,12 @@
                 console.log(doc.data());
             });
         })
+        const itemModal = document.querySelector('.item-modal-wrapper');
+        const itemModalExit = itemModal.querySelector('#exit');
+
+        itemModalExit.addEventListener('click', () => {
+            itemModal.classList.toggle('invisible');
+        })
    </script>
 </body>
 </html>

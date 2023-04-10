@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./assets/css/sign_up.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="nav">
+        <h1 class="nav__title">
+            <a href="index.html">Advintage</a>
+        </h1>
+    </div>
+    <main>
+        <form class="sign-up-form">
+            <span>Sign up</span>
+            <input type="email" id="sign-up__email" placeholder="Input your email" required/>
+            <input type="password" id="sign-up__password" placeholder="Input your password" required/>
+            <div class="isSeller">
+                <label>
+                <input type="checkbox" />
+                <span>I'm Seller.</span>
+                </label>
+            </div>
+            <button id="sign-up__btn">Go</button>
+        </form>
+        <form class="sign-up-form">
+            <span>Log in</span>
+            <input type="email" id="log-in__email" placeholder="Input your email" required/>
+            <input type="password" id="log-in__password" placeholder="Input your password" required/>
+            <div class="isSeller">
+                <label>
+                <input type="checkbox" />
+                <span>I'm Seller.</span>
+                </label>
+            </div>
+            <button id="log-in__btn">Go</button>
+        </form>
+    </main>
+    <script src="./assets/js/sign_up.js" type="module" defer ></script>
+</body>
+</html>
