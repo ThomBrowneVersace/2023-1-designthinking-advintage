@@ -27,9 +27,10 @@ body {
     font-size: 30px;
 }
 
-.nav__title  a {
+a {
     text-decoration: none;
     color: white;
+    margin: 0rem 0.5rem;
 }
 
 .nav_btn {
