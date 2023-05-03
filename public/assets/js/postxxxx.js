@@ -122,24 +122,29 @@ selectCategory.addEventListener('change', event => {
 });
 
 postingBtn.addEventListener('click', (event) => {
+  console.log(1);
   const postFormInputs = document.querySelectorAll('.post-form__input-wrapper input');
   const category = document.getElementById('category');
-  const imgURLs = [];
-  const sizes = [document.querySelectorAll('.size-inputs').forEach(s => s.value)];
-  console.log(sizes);
+  const imgNames = ['str'];
+  const sizes = [...document.getElementsByClassName('size-inputs')];
+  const sizesValue = sizes.map(size => parseInt(size.value));
   event.preventDefault();
   uploadFiles.forEach(file => {
     const storageRef = ref(storage, `personalProductsImg/${file.name}`);
     uploadBytes(storageRef, file).then((snapshot) => {
-      imgURLs.push(`gs://${snapshot.bucket}/${snapshot.fullpath}`)
+      console.log(snapshot);
+      imgNames.push(`${snapshot.metadata.contentType}`)
     });
   });
+  console.dir(imgNames);
+  const imgs = imgNames.map(img => img);
+  console.log(imgs);
   setDoc(doc(db, "personalProducts", category.value, `${category.value}Products`, `${postFormInputs[0].value}`), {
       title: `${postFormInputs[0].value}`,
       price: `${postFormInputs[1].value}`,
       description: `${postFormInputs[2].value}`,
       category: `${category.value}`,
-      size: [...sizes],
-      imgs: imgURLs
+      imgs: [...imgNames],
+      size: [...sizesValue]
     });
 })
