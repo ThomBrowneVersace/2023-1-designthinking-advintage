@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
-import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-storage.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-storage.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -121,30 +121,61 @@ selectCategory.addEventListener('change', event => {
   selectCategory.after(sizes);
 });
 
-postingBtn.addEventListener('click', (event) => {
-  console.log(1);
+// postingBtn.addEventListener('click', (event) => {
+//   console.log(1);
+//   const postFormInputs = document.querySelectorAll('.post-form__input-wrapper input');
+//   const category = document.getElementById('category');
+//   const imgNames = ['str'];
+//   const sizes = [...document.getElementsByClassName('size-inputs')];
+//   const sizesValue = sizes.map(size => parseInt(size.value));
+//   event.preventDefault();
+//   uploadFiles.forEach(file => {
+//     const storageRef = ref(storage, `personalProductsImg/${file.name}`);
+//     uploadBytes(storageRef, file).then((snapshot) => {
+//       console.dir(snapshot);
+//       imgNames.push(`${snapshot.metadata.contentType}`)
+//     });
+//   });
+//   console.dir(imgNames);
+//   const imgs = imgNames.map(img => img);
+//   console.log(imgs);
+//   setDoc(doc(db, "personalProducts", category.value, `${category.value}Products`, `${postFormInputs[0].value}`), {
+//       title: `${postFormInputs[0].value}`,
+//       price: `${postFormInputs[1].value}`,
+//       description: `${postFormInputs[2].value}`,
+//       category: `${category.value}`,
+//       imgs: [...imgNames],
+//       size: [...sizesValue]
+//     });
+// })
+
+postingBtn.addEventListener('click', async (event) => {
   const postFormInputs = document.querySelectorAll('.post-form__input-wrapper input');
   const category = document.getElementById('category');
-  const imgNames = ['str'];
+  const imgPaths = [];
   const sizes = [...document.getElementsByClassName('size-inputs')];
   const sizesValue = sizes.map(size => parseInt(size.value));
   event.preventDefault();
-  uploadFiles.forEach(file => {
-    const storageRef = ref(storage, `personalProductsImg/${file.name}`);
-    uploadBytes(storageRef, file).then((snapshot) => {
-      console.log(snapshot);
-      imgNames.push(`${snapshot.metadata.contentType}`)
-    });
-  });
-  console.dir(imgNames);
-  const imgs = imgNames.map(img => img);
-  console.log(imgs);
-  setDoc(doc(db, "personalProducts", category.value, `${category.value}Products`, `${postFormInputs[0].value}`), {
+  console.log("uploadFiles", uploadFiles);
+  for (const file of uploadFiles) {
+      const storageRef = ref(storage, `personalProductsImg/${file.name}`);
+      const uploadResp = await uploadBytes(storageRef, file);
+      console.log("uploadResp", uploadResp);
+      const url = await getDownloadURL(uploadResp.ref);
+      console.log("url", url);
+      imgPaths.push(url);
+  }
+
+  console.log("imgPaths", imgPaths);
+  const setResp = await setDoc(doc(db, "personalProducts", category.value, `${category.value}Products`, `${postFormInputs[0].value}`), {
       title: `${postFormInputs[0].value}`,
       price: `${postFormInputs[1].value}`,
       description: `${postFormInputs[2].value}`,
       category: `${category.value}`,
-      imgs: [...imgNames],
+      imgs: imgPaths,
       size: [...sizesValue]
-    });
+  });
+
+  console.log("setResp", setResp);
+  location.replace('./second_hand_trade.html');
 })
