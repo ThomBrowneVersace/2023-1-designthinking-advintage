@@ -1,6 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-storage.js";
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -19,7 +21,11 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+const checkSellerBox = document.querySelector('.sign-up-form:first-child .isSeller input');
+const sellerInfo = document.querySelector('.seller-info');
 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 
@@ -28,16 +34,35 @@ document.querySelector('.sign-up-form button').addEventListener('click', (event)
     const email = document.getElementById('sign-up__email').value;
     const password = document.getElementById('sign-up__password').value;
     const auth = getAuth();
-    const checkSellerBox = document.querySelector('.sign-up-form:first-child .isSeller input');
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
         localStorage.setItem('user', user.email);
-        if (checkSellerBox.checked) {
-          localStorage.setItem('isSeller', true);
-        }
         // ...
+        console.log(user);
+        if (checkSellerBox.checked) {
+            const shopName = document.getElementById('shop-name').value;
+            const postCode = document.getElementById('sample3_postcode').value;
+            const address = document.getElementById('sample3_address').value;
+            const detailAdress = document.getElementById('sample3_detailAddress').value;
+            const extraAddress = document.getElementById('sample3_extraAddress').value;
+            setDoc(doc(db, "userInfo", `${user.email}`), {
+                email: user.email,
+                uid: user.uid,
+                isSeller: true,
+                shopName,
+                postCode,
+                address,
+                detailAdress,
+                extraAddress
+            });
+        } else {
+            setDoc(doc(db, "userInfo", `${user.email}`), {
+                email: user.email,
+                uid: user.uid
+            });
+        }
         location.replace('./index.html');
     })
     .catch((error) => {
@@ -46,28 +71,9 @@ document.querySelector('.sign-up-form button').addEventListener('click', (event)
         alert(errorCode);
         // ..
   });
-}); 
+});
 
-document.getElementById('log-in__btn').addEventListener('click', (event) => {
-    event.preventDefault();
-    const email = document.getElementById('log-in__email').value;
-    const password = document.getElementById('log-in__password').value;
-    const auth = getAuth();
-    const checkSellerBox = document.querySelector('.sign-up-form:last-child .isSeller input');
-    signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        // ...
-        localStorage.setItem('user', user.email);
-        if (checkSellerBox.checked) {
-          localStorage.setItem('isSeller', true);
-        }
-        location.replace('./index.html');
-    })
-    .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
-  });
-}); 
+
+checkSellerBox.addEventListener('click', event => {
+    sellerInfo.classList.toggle('invisible');
+});

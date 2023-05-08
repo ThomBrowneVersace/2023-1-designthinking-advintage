@@ -41,7 +41,7 @@ main {
     color: white;
 }
 
-.sign-up-form {
+.log-in {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -53,19 +53,19 @@ main {
     border: 1px solid black;
 }
 
-.sign-up-form span:not(.isSeller span) {
+.log-in span:not(.isSeller span) {
     position: relative;
     font-size: 50px;
 }
 
-.sign-up-form input:not([type="checkbox"]) {
+.log-in input:not([type="checkbox"]) {
     height: 30px;
     width: 80%;
     border: none;
     border-bottom: 2px solid gray;
 }
 
-.sign-up-form input:focus {
+.log-in input:focus {
     outline: none;
     border-bottom: 2px solid rgb(151, 15, 15);
     transition: all 0.5s ease-in;

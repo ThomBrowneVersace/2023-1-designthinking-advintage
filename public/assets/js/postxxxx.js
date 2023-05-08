@@ -2,6 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-storage.js";
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -24,7 +25,6 @@ const db = getFirestore(app);
 
 const storage = getStorage(app);
 
-import { doc, setDoc } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
 
 // Templates
 const topTemplate = document.getElementById('top/outer-template');
@@ -139,14 +139,14 @@ selectCategory.addEventListener('change', event => {
 //   console.dir(imgNames);
 //   const imgs = imgNames.map(img => img);
 //   console.log(imgs);
-//   setDoc(doc(db, "personalProducts", category.value, `${category.value}Products`, `${postFormInputs[0].value}`), {
-//       title: `${postFormInputs[0].value}`,
-//       price: `${postFormInputs[1].value}`,
-//       description: `${postFormInputs[2].value}`,
-//       category: `${category.value}`,
-//       imgs: [...imgNames],
-//       size: [...sizesValue]
-//     });
+  // setDoc(doc(db, "personalProducts", category.value, `${category.value}Products`, `${postFormInputs[0].value}`), {
+  //     title: `${postFormInputs[0].value}`,
+  //     price: `${postFormInputs[1].value}`,
+  //     description: `${postFormInputs[2].value}`,
+  //     category: `${category.value}`,
+  //     imgs: [...imgNames],
+  //     size: [...sizesValue]
+  //   });
 // })
 
 postingBtn.addEventListener('click', async (event) => {

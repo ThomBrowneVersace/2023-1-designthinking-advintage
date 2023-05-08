@@ -40,7 +40,8 @@ a {
 }
 
 .item-wrapper {
-    display: flex;
+    display: grid;
+	grid-template-columns: repeat(5, 150px);
 }
 
 .item-box {

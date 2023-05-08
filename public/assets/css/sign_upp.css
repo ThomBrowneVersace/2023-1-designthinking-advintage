@@ -1,0 +1,120 @@
+@import 'reset.css';
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+main {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.nav {
+    display: flex;
+    height: 32px;
+    padding: 23px;
+    background-color: black;
+    font-size: 30px;
+    width: 100%;
+}
+
+.nav__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav__title  a {
+    margin-left: 23px;
+    text-decoration: none;
+    color: white;
+}
+
+.sign-up-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 40rem;
+    height: 50rem;
+    margin-top: 25px;
+    color: black;
+    border: 1px solid black;
+}
+
+.sign-up-form span:not(.isSeller span) {
+    position: relative;
+    font-size: 50px;
+    margin-bottom: 1rem;
+}
+
+.sign-up-form input:not([type="checkbox"]) {
+    height: 30px;
+    width: 80%;
+    border: none;
+    border-bottom: 2px solid gray;
+}
+
+.sign-up-form input:focus {
+    outline: none;
+    border-bottom: 2px solid rgb(151, 15, 15);
+    transition: all 0.5s ease-in;
+}
+
+.isSeller {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.seller-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.seller-info > div{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    width: 50%;
+}
+
+.seller-info input[type="text"] {
+    width: 50%;
+    margin: 0.5rem 0rem;
+}
+.seller-info input[type="button"] {
+    width: 5rem;
+    height: 2rem;
+    border-radius: 5px;
+    border-bottom: none;
+    margin-left: 1rem;
+}
+
+#wrap {
+    display:none;
+    border:1px solid;
+    width:500px;
+    height:300px;
+    margin:5px 0;
+    position:absolute;
+    z-index: 1;
+    bottom: 5rem;
+}
+
+.invisible {
+    display: none;
+}
+
+p {
+    margin: 1rem 0rem;
+}

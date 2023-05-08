@@ -39,6 +39,7 @@ if (Object.keys(localStorage).includes('user')) {
     signOut(auth).then(() => {
     // Sign-out successful.
         localStorage.removeItem('user');
+        localStorage.removeItem('isSeller');
         location.reload();
     }).catch((error) => {
     // An error happened.
