@@ -1,0 +1,88 @@
+@import 'reset.css';
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    color: black;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.invisible {
+    display: none;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 32px;
+    width: 98%;
+    padding: 23px;
+    background-color: black;
+}
+
+.nav__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    margin: 0rem 0.5rem;
+}
+
+.nav_btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#map {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrap {
+    width: 18rem;
+    height: 7rem;
+    background-color: white;
+    color: black;
+    border-radius: 5px;
+    padding: 1rem;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.body {
+    display: flex;
+    flex-direction: row;
+}
+
+.desc a {
+    color: rgb(0, 162, 255);
+}
+
+
+

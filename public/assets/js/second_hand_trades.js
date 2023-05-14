@@ -22,7 +22,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const storage = getStorage(app);
 const q = query(collection(db, "personalProducts", "top", "topProducts"));
 
 const itemsList = document.querySelector('.item-wrapper');
@@ -39,17 +38,17 @@ const createItemBox = (data) => {
     const box = document.createElement('div');
     box.className = "item-box";
     box.innerHTML = `
-    <div class="item-box__img">
-        <img src="assets/cardigan.jpeg">
-    </div>
-    <div class="item-box__contents">
-        <div class="item-box__content">
-            <span>${data.title}</span>
+        <div class="item-box__img">
+            <img src="${data.imgs[0]}">
         </div>
-        <div class="item-box__content">
-            <span>${data.price}</span>
+        <div class="item-box__contents">
+            <div class="item-box__content">
+                <span>${data.title}</span>
+            </div>
+            <div class="item-box__content">
+                <span>${data.price}</span>
+            </div>
         </div>
-    </div>
     `;
     return box;
 }

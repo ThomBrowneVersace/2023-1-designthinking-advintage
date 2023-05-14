@@ -41,7 +41,7 @@ a {
 
 .item-wrapper {
     display: grid;
-	grid-template-columns: repeat(5, 150px);
+	grid-template-columns: repeat(5, 200px);
 }
 
 .item-box {
@@ -59,10 +59,12 @@ a {
 
 .item-box__contents {
     width: 100%;
+    border: 1px solid black;
 }
 
 .item-box__content {
     display: flex;
     width: 100%;
     margin: 3px 0px;
+    
 }

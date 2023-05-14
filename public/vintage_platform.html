@@ -4,72 +4,142 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="./assets/css/vintage_platform.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/vintage_platformc.css">
     <script src="https://kit.fontawesome.com/e67d34325c.js" crossorigin="anonymous"></script>
     <title>Vintage Platform</title>
 </head>
 <body>
+    <!-- <template id="top-filter-template">
+        <div class="size-filter">
+            총장<input type="number"/>-<input type="number"/>
+        </div>
+        <div class="size-filter">
+            어깨너비<input type="number"/>-<input type="number"/>
+        </div>
+        <div class="size-filter">
+            가슴단면<input type="number"/>-<input type="number"/>
+        </div>
+        <div class="size-filter">
+            소매길이<input type="number"/>-<input type="number"/>
+        </div>
+        <button>Apply</button>
+    </template>
+    <template id="pants-filter-template">
+        <div class="size-filter">
+            총장<input type="number"/>-<input type="number"/>
+        </div>
+        <div class="size-filter">
+            허리단면<input type="number"/>-<input type="number"/>
+        </div>
+        <div class="size-filter">
+            허벅지단면<input type="number"/>-<input type="number"/>
+        </div>
+        <div class="size-filter">
+            밑위<input type="number"/>-<input type="number"/>
+        </div>
+        <div class="size-filter">
+            밑단단면<input type="number"/>-<input type="number"/>
+        </div>
+        <button>Apply</button>
+    </template>
+    <template id="shoes-filter-template">
+        <div class="size-filter">
+            사이즈<input type="number"/>-<input type="number"/>
+        </div>
+        <button>Apply</button>
+    </template>
+    <template id="headwear-filter-template">
+        <div class="size-filter">
+            머레둘레<input type="number"/>-<input type="number"/>
+        </div>
+        <div class="size-filter">
+            깊이<input type="number"/>-<input type="number"/>
+        </div>
+        <div class="size-filter">
+            챙길이<input type="number"/>-<input type="number"/>
+        </div>
+        <button>Apply</button>
+    </template> -->
     <div class="nav">
         <h1 class="nav__title">
             <a href="index.html">Advintage</a>
         </h1>
+        <div class="nav__btns">
+            <div class="nav__btn">
+                <a href="./platform_post.html">Post</a>
+            </div>
+            <div class="nav__btn">
+                <a href="shopRecommend.html">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="search-items">
+        <div class="category-filter">
+            <button class="category-filter__btn">Top</button>
+            <button class="category-filter__btn">Pants</button>
+            <button class="category-filter__btn">Outer</button>
+            <button class="category-filter__btn">Shoes</button>
+            <button class="category-filter__btn">Bag</button>
+            <button class="category-filter__btn">Headwear</button>
+        </div>
+        <div id="top-filter-template" class="filter invisible" >
+            <div class="size-filter">
+                총장<input type="number"/>-<input type="number"/>
+            </div>
+            <div class="size-filter">
+                어깨너비<input type="number"/>-<input type="number"/>
+            </div>
+            <div class="size-filter">
+                가슴단면<input type="number"/>-<input type="number"/>
+            </div>
+            <div class="size-filter">
+                소매길이<input type="number"/>-<input type="number"/>
+            </div>
+            <button>Apply</button>
+        </div>
+        <div id="pants-filter-template" class="filter invisible" >
+            <div class="size-filter">
+                총장<input type="number"/>-<input type="number"/>
+            </div>
+            <div class="size-filter">
+                허리단면<input type="number"/>-<input type="number"/>
+            </div>
+            <div class="size-filter">
+                허벅지단면<input type="number"/>-<input type="number"/>
+            </div>
+            <div class="size-filter">
+                밑위<input type="number"/>-<input type="number"/>
+            </div>
+            <div class="size-filter">
+                밑단단면<input type="number"/>-<input type="number"/>
+            </div>
+            <button>Apply</button>
+        </div>
+        <div id="shoes-filter-template" class="filter invisible" >
+            <div class="size-filter">
+                사이즈<input type="number"/>-<input type="number"/>
+            </div>
+            <button>Apply</button>
+        </div>
+        <div id="headwear-filter-template" class="filter invisible" >
+            <div class="size-filter">
+                머레둘레<input type="number"/>-<input type="number"/>
+            </div>
+            <div class="size-filter">
+                깊이<input type="number"/>-<input type="number"/>
+            </div>
+            <div class="size-filter">
+                챙길이<input type="number"/>-<input type="number"/>
+            </div>
+            <button>Apply</button>
+        </div>
     </div>
     <div class="item-wrapper">
-        <div class="item-box">
-            <div class="item-box__img">
-                <img src="assets/2992063_1_125.jpg">
-            </div>
-            <div class="item-box__contents">
-                <div class="item-box__content">
-                    <span>title</span>
-                </div>
-                <div class="item-box__content">
-                    <span>1,000</span>
-                </div>
-            </div>
-        </div>
-        <div class="item-box">
-            <div class="item-box__img">
-                <img src="assets/2992063_1_125.jpg">
-            </div>
-            <div class="item-box__contents">
-                <div class="item-box__content">
-                    <span>title</span>
-                </div>
-                <div class="item-box__content">
-                    <span>1,000</span>
-                </div>
-            </div>
-        </div>
-        <div class="item-box">
-            <div class="item-box__img">
-                <img src="assets/2992063_1_125.jpg">
-            </div>
-            <div class="item-box__contents">
-                <div class="item-box__content">
-                    <span>title</span>
-                </div>
-                <div class="item-box__content">
-                    <span>1,000</span>
-                </div>
-            </div>
-        </div>
-        <div class="item-box">
-            <div class="item-box__img">
-                <img src="assets/2992063_1_125.jpg">
-            </div>
-            <div class="item-box__contents">
-                <div class="item-box__content">
-                    <span>title</span>
-                </div>
-                <div class="item-box__content">
-                    <span>1,000</span>
-                </div>
-            </div>
-        </div>
-
+    <main>
     </div>
-    <div class="item-modal-wrapper">
+    <div class="item-modal-wrapper invisible">
         <div class="item-modal">
             <div class="item-modal__img">
                 <img src="assets/cardigan.jpeg"/>
@@ -102,37 +172,7 @@
             </div>
         </div>
     </div>
-    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyDo5bC-RBUsX8xBR4i3YBDImhorl5j9Nxc",
-            authDomain: "advintage-d5f8c.firebaseapp.com",
-            databaseURL: "https://advintage-d5f8c-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "advintage-d5f8c",
-            storageBucket: "advintage-d5f8c.appspot.com",
-            messagingSenderId: "40587996397",
-            appId: "1:40587996397:web:235937e2ded956f7e930e4",
-            measurementId: "G-67L1HC3RTZ"
-        };
-        firebase.initializeApp(firebaseConfig);
-   </script>
-   <script>
-        const db = firebase.firestore();
-        db.collection('products').get().then((result) => {
-            result.forEach((doc) => {
-                console.log(doc.data());
-            });
-        })
-        const itemModal = document.querySelector('.item-modal-wrapper');
-        const itemModalExit = itemModal.querySelector('#exit');
-
-        itemModalExit.addEventListener('click', () => {
-            itemModal.classList.toggle('invisible');
-        })
-   </script>
+    </body>
+    <script src="./assets/js/vintage_platformqq.js" type="module"></script>
 </body>
 </html>

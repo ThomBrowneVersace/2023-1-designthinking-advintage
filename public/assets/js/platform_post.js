@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
+import { getFirestore, getDoc } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-storage.js";
 import { doc, setDoc } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -33,10 +33,12 @@ const shoesTemplate = document.getElementById('shoes-template');
 const headwearTemplate = document.getElementById('headwear-template');
 
 // Elements
+const postFrom = document.querySelector('.post-form');
 const postingBtn = document.querySelector('.post-form button');
 const productImgUpload = document.getElementById('img-upload');
 const productImgLists = document.querySelector('.post-form__img-preview ul');
 const selectCategory = document.getElementById('category');
+const selectOption = document.getElementById('option');
 const uploadFiles = [];
 
 productImgUpload.addEventListener('change', event => {
@@ -97,7 +99,7 @@ function createElement(e, file) {
 }
 
 const sizes = document.importNode(topTemplate.content, true);
-selectCategory.after(sizes);
+postingBtn.before(sizes);
 
 selectCategory.addEventListener('change', event => {
   event.preventDefault();
@@ -118,36 +120,36 @@ selectCategory.addEventListener('change', event => {
   } else {
     return;
   }
-  selectCategory.after(sizes);
+  postingBtn.before(sizes);
+
 });
 
-postingBtn.addEventListener('click', (event) => {
-  console.log(1);
-  const postFormInputs = document.querySelectorAll('.post-form__input-wrapper input');
-  const category = document.getElementById('category');
-  const imgNames = ['str'];
-  const sizes = [...document.getElementsByClassName('size-inputs')];
-  const sizesValue = sizes.map(size => parseInt(size.value));
-  event.preventDefault();
-  uploadFiles.forEach(file => {
-    const storageRef = ref(storage, `personalProductsImg/${file.name}`);
-    uploadBytes(storageRef, file).then((snapshot) => {
-      console.dir(snapshot);
-      imgNames.push(`${snapshot.metadata.contentType}`)
-    });
-  });
-  console.dir(imgNames);
-  const imgs = imgNames.map(img => img);
-  console.log(imgs);
-  setDoc(doc(db, "personalProducts", category.value, `${category.value}Products`, `${postFormInputs[0].value}`), {
-      title: `${postFormInputs[0].value}`,
-      price: `${postFormInputs[1].value}`,
-      description: `${postFormInputs[2].value}`,
-      category: `${category.value}`,
-      imgs: [...imgNames],
-      size: [...sizesValue]
-    });
-})
+// postingBtn.addEventListener('click', (event) => {
+//   const postFormInputs = document.querySelectorAll('.post-form__input-wrapper input');
+//   const category = document.getElementById('category');
+//   const imgNames = ['str'];
+//   const sizes = [...document.getElementsByClassName('size-inputs')];
+//   const sizesValue = sizes.map(size => parseInt(size.value));
+//   event.preventDefault();
+//   uploadFiles.forEach(file => {
+//     const storageRef = ref(storage, `personalProductsImg/${file.name}`);
+//     uploadBytes(storageRef, file).then((snapshot) => {
+//       console.dir(snapshot);
+//       imgNames.push(`${snapshot.metadata.contentType}`)
+//     });
+//   });
+//   console.dir(imgNames);
+//   const imgs = imgNames.map(img => img);
+//   console.log(imgs);
+//   setDoc(doc(db, "personalProducts", category.value, `${category.value}Products`, `${postFormInputs[0].value}`), {
+//       title: `${postFormInputs[0].value}`,
+//       price: `${postFormInputs[1].value}`,
+//       description: `${postFormInputs[2].value}`,
+//       category: `${category.value}`,
+//       imgs: [...imgNames],
+//       size: [...sizesValue]
+//     });
+// })
 
 postingBtn.addEventListener('click', async (event) => {
   const postFormInputs = document.querySelectorAll('.post-form__input-wrapper input');
@@ -167,17 +169,22 @@ postingBtn.addEventListener('click', async (event) => {
   }
 
   console.log("imgPaths", imgPaths);
-  const setResp = await setDoc(doc(db, "personalProducts", category.value, `${category.value}Products`, `${postFormInputs[0].value}`), {
-      title: `${postFormInputs[0].value}`,
-      price: `${postFormInputs[1].value}`,
-      description: `${postFormInputs[2].value}`,
+  const docRef = doc(db, "userInfo", localStorage.getItem('user'));
+  const docSnap = await getDoc(docRef);
+  const setResp = await setDoc(doc(db, "platformProducts", `${postFormInputs[1].value}`), {
+      title: `${postFormInputs[1].value}`,
+      price: `${postFormInputs[2].value}`,
+      description: `${postFormInputs[3].value}`,
       category: `${category.value}`,
       imgs: imgPaths,
-      size: [...sizesValue]
+      size: [...sizesValue],
+      sml: selectOption.value,
+      shopTitle: docSnap.data().shopName,
+      timestamp: new Date()
   });
 
   console.log("setResp", setResp);
-  location.replace('./second_hand_trade.html');
+  location.replace('./vintage_platform.html');
 })
 
 

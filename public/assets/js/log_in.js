@@ -29,7 +29,6 @@ document.getElementById('log-in__btn').addEventListener('click', async (event) =
   const email = document.getElementById('log-in__email').value;
   const password = document.getElementById('log-in__password').value;
   const auth = getAuth();
-  const checkSellerBox = document.querySelector('.sign-up-form:last-child .isSeller input');
   signInWithEmailAndPassword(auth, email, password)
   .then(async (userCredential) => {
     // Signed in
@@ -43,10 +42,12 @@ document.getElementById('log-in__btn').addEventListener('click', async (event) =
           console.log(docSnap.data());
         }
         location.replace('./index.html');
+        
     })
     .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         // ..
+        alert(errorMessage);
   });
 }); 
