@@ -54,3 +54,11 @@ if (Object.keys(localStorage).includes('user')) {
     nav.removeChild(navChildren[0]);
     nav.appendChild(btns);
 }
+
+const anchors = document.querySelectorAll('.main__nav__content a');
+const notYet = event => {
+    alert('서비스 준비 중입니다. - Addvintage');
+}
+for(let i = 1; i < 4; i++) {
+    anchors[i].addEventListener('click', notYet);
+}
