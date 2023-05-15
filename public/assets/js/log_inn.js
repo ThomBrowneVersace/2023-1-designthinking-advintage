@@ -2,6 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -23,13 +24,18 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const analytics = getAnalytics(app);
 
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
-document.getElementById('log-in__btn').addEventListener('click', async (event) => {
+const auth = getAuth();
+console.log(auth.currentUser);
+
+document.getElementById('log-in__btn').addEventListener('click', (event) => {
   event.preventDefault();
   const email = document.getElementById('log-in__email').value;
   const password = document.getElementById('log-in__password').value;
-  const auth = getAuth();
-  signInWithEmailAndPassword(auth, email, password)
+  setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+
+    return signInWithEmailAndPassword(auth, email, password);
+  })
   .then(async (userCredential) => {
     // Signed in
     const user = userCredential.user;
@@ -41,7 +47,7 @@ document.getElementById('log-in__btn').addEventListener('click', async (event) =
           localStorage.setItem('isSeller', true);
           console.log(docSnap.data());
         }
-        location.replace('./index.html');
+        // location.replace('./index.html');
         
     })
     .catch((error) => {
@@ -49,5 +55,10 @@ document.getElementById('log-in__btn').addEventListener('click', async (event) =
         const errorMessage = error.message;
         // ..
         alert(errorMessage);
+  })
+  .catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
   });
 }); 

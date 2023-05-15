@@ -39,7 +39,6 @@ document.querySelector('.sign-up-form button').addEventListener('click', async (
     // Signed in
     localStorage.setItem('user', user.email);
     // ...
-    console.log(user);
     if (checkSellerBox.checked) {
         const shopName = document.getElementById('shop-name').value;
         const postCode = document.getElementById('sample3_postcode').value;

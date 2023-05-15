@@ -3,6 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebas
 import { getFirestore, getDoc } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-storage.js";
 import { doc, setDoc } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -24,7 +25,10 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const storage = getStorage(app);
+const auth = getAuth();
+const user = auth.currentUser;
 
+console.log(user);
 
 // Templates
 const topTemplate = document.getElementById('top/outer-template');
