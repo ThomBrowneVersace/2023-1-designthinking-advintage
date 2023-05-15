@@ -159,32 +159,38 @@ postingBtn.addEventListener('click', async (event) => {
   const sizesValue = sizes.map(size => parseInt(size.value));
   event.preventDefault();
   console.log("uploadFiles", uploadFiles);
-  for (const file of uploadFiles) {
-      const storageRef = ref(storage, `personalProductsImg/${file.name}`);
-      const uploadResp = await uploadBytes(storageRef, file);
-      console.log("uploadResp", uploadResp);
-      const url = await getDownloadURL(uploadResp.ref);
-      console.log("url", url);
-      imgPaths.push(url);
+  try {
+    for (const file of uploadFiles) {
+        const storageRef = ref(storage, `personalProductsImg/${file.name}`);
+        const uploadResp = await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(uploadResp.ref);
+        imgPaths.push(url);
+    }
+
+    console.log("imgPaths", imgPaths);
+    const docRef = doc(db, "userInfo", localStorage.getItem('user'));
+    const docSnap = await getDoc(docRef);
+    const setResp = await setDoc(doc(db, "platformProducts", `${postFormInputs[1].value}`), {
+        title: `${postFormInputs[1].value}`,
+        price: `${postFormInputs[2].value}`,
+        description: `${postFormInputs[3].value}`,
+        category: `${category.value}`,
+        imgs: imgPaths,
+        size: [...sizesValue],
+        sml: selectOption.value,
+        shopTitle: docSnap.data().shopName,
+        timestamp: new Date()
+    });
+    location.replace('./vintage_platform.html');
+  } catch (error) {
+    if (error.code === "permission-denied") {
+      console.log(error);
+      alert("접근 권한이 없습니다. 이메일 인증을 완료해주세요.");
+      // history.back();
+    } else if (error.code === "invalid-argument") {
+      alert("잘못된 상품명입니다.");
+    }
   }
-
-  console.log("imgPaths", imgPaths);
-  const docRef = doc(db, "userInfo", localStorage.getItem('user'));
-  const docSnap = await getDoc(docRef);
-  const setResp = await setDoc(doc(db, "platformProducts", `${postFormInputs[1].value}`), {
-      title: `${postFormInputs[1].value}`,
-      price: `${postFormInputs[2].value}`,
-      description: `${postFormInputs[3].value}`,
-      category: `${category.value}`,
-      imgs: imgPaths,
-      size: [...sizesValue],
-      sml: selectOption.value,
-      shopTitle: docSnap.data().shopName,
-      timestamp: new Date()
-  });
-
-  console.log("setResp", setResp);
-  location.replace('./vintage_platform.html');
 })
 
 

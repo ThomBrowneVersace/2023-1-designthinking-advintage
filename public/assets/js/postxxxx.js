@@ -121,33 +121,36 @@ selectCategory.addEventListener('change', event => {
   selectCategory.after(sizes);
 });
 
-postingBtn.addEventListener('click', (event) => {
-  console.log(1);
-  const postFormInputs = document.querySelectorAll('.post-form__input-wrapper input');
-  const category = document.getElementById('category');
-  const imgNames = ['str'];
-  const sizes = [...document.getElementsByClassName('size-inputs')];
-  const sizesValue = sizes.map(size => parseInt(size.value));
-  event.preventDefault();
-  uploadFiles.forEach(file => {
-    const storageRef = ref(storage, `personalProductsImg/${file.name}`);
-    uploadBytes(storageRef, file).then((snapshot) => {
-      console.dir(snapshot);
-      imgNames.push(`${snapshot.metadata.contentType}`)
-    });
-  });
-  console.dir(imgNames);
-  const imgs = imgNames.map(img => img);
-  console.log(imgs);
-  setDoc(doc(db, "personalProducts", category.value, `${category.value}Products`, `${postFormInputs[0].value}`), {
-      title: `${postFormInputs[0].value}`,
-      price: `${postFormInputs[1].value}`,
-      description: `${postFormInputs[2].value}`,
-      category: `${category.value}`,
-      imgs: [...imgNames],
-      size: [...sizesValue]
-    });
-})
+// postingBtn.addEventListener('click', (event) => {
+//   console.log(1);
+//   const postFormInputs = document.querySelectorAll('.post-form__input-wrapper input');
+//   const category = document.getElementById('category');
+//   const imgNames = ['str'];
+//   const sizes = [...document.getElementsByClassName('size-inputs')];
+//   const sizesValue = sizes.map(size => parseInt(size.value));
+//   event.preventDefault();
+//   uploadFiles.forEach(file => {
+//     const storageRef = ref(storage, `personalProductsImg/${file.name}`);
+//     uploadBytes(storageRef, file).then((snapshot) => {
+//       console.dir(snapshot);
+//       imgNames.push(`${snapshot.metadata.contentType}`)
+//     }).catch(error => {
+//       console.log(error);
+//       console.log('Posting 권한이 없습니다.');
+//     });
+//   });
+//   console.dir(imgNames);
+//   const imgs = imgNames.map(img => img);
+//   console.log(imgs);
+//   setDoc(doc(db, "personalProducts", category.value, `${category.value}Products`, `${postFormInputs[0].value}`), {
+//       title: `${postFormInputs[0].value}`,
+//       price: `${postFormInputs[1].value}`,
+//       description: `${postFormInputs[2].value}`,
+//       category: `${category.value}`,
+//       imgs: [...imgNames],
+//       size: [...sizesValue]
+//     });
+// })
 
 postingBtn.addEventListener('click', async (event) => {
   const postFormInputs = document.querySelectorAll('.post-form__input-wrapper input');
@@ -156,25 +159,27 @@ postingBtn.addEventListener('click', async (event) => {
   const sizes = [...document.getElementsByClassName('size-inputs')];
   const sizesValue = sizes.map(size => parseInt(size.value));
   event.preventDefault();
-  console.log("uploadFiles", uploadFiles);
-  for (const file of uploadFiles) {
-      const storageRef = ref(storage, `personalProductsImg/${file.name}`);
-      const uploadResp = await uploadBytes(storageRef, file);
-      console.log("uploadResp", uploadResp);
-      const url = await getDownloadURL(uploadResp.ref);
-      console.log("url", url);
-      imgPaths.push(url);
-  }
+  try {
+    console.log("uploadFiles", uploadFiles);
+    for (const file of uploadFiles) {
+        const storageRef = ref(storage, `personalProductsImg/${file.name}`);
+        const uploadResp = await uploadBytes(storageRef, file);
+        console.log("uploadResp", uploadResp);
+        const url = await getDownloadURL(uploadResp.ref);
+        imgPaths.push(url);
+    }
 
-  console.log("imgPaths", imgPaths);
-  const setResp = await setDoc(doc(db, "personalProducts", category.value, `${category.value}Products`, `${postFormInputs[0].value}`), {
-      title: `${postFormInputs[0].value}`,
-      price: `${postFormInputs[1].value}`,
-      description: `${postFormInputs[2].value}`,
-      category: `${category.value}`,
-      imgs: imgPaths,
-      size: [...sizesValue]
-  });
+    const setResp = await setDoc(doc(db, "personalProducts", category.value, `${category.value}Products`, `${postFormInputs[0].value}`), {
+        title: `${postFormInputs[0].value}`,
+        price: `${postFormInputs[1].value}`,
+        description: `${postFormInputs[2].value}`,
+        category: `${category.value}`,
+        imgs: imgPaths,
+        size: [...sizesValue]
+    });
+  } catch (error) {
+    alert(error);
+  }
 
   console.log("setResp", setResp);
   location.replace('./second_hand_trade.html');

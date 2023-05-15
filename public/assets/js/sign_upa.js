@@ -29,48 +29,41 @@ const sellerInfo = document.querySelector('.seller-info');
 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 
-document.querySelector('.sign-up-form button').addEventListener('click', (event) => {
+document.querySelector('.sign-up-form button').addEventListener('click', async (event) => {
     event.preventDefault();
     const email = document.getElementById('sign-up__email').value;
     const password = document.getElementById('sign-up__password').value;
     const auth = getAuth();
-    createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        localStorage.setItem('user', user.email);
-        // ...
-        console.log(user);
-        if (checkSellerBox.checked) {
-            const shopName = document.getElementById('shop-name').value;
-            const postCode = document.getElementById('sample3_postcode').value;
-            const address = document.getElementById('sample3_address').value;
-            const detailAdress = document.getElementById('sample3_detailAddress').value;
-            const extraAddress = document.getElementById('sample3_extraAddress').value;
-            setDoc(doc(db, "userInfo", `${user.email}`), {
-                email: user.email,
-                uid: user.uid,
-                isSeller: true,
-                shopName,
-                postCode,
-                address,
-                detailAdress,
-                extraAddress
-            });
-        } else {
-            setDoc(doc(db, "userInfo", `${user.email}`), {
-                email: user.email,
-                uid: user.uid
-            });
-        }
-        location.replace('./index.html');
-    })
-    .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorCode);
-        // ..
-  });
+    const userC = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userC.user;
+    // Signed in
+    localStorage.setItem('user', user.email);
+    // ...
+    console.log(user);
+    if (checkSellerBox.checked) {
+        const shopName = document.getElementById('shop-name').value;
+        const postCode = document.getElementById('sample3_postcode').value;
+        const address = document.getElementById('sample3_address').value;
+        const detailAdress = document.getElementById('sample3_detailAddress').value;
+        const extraAddress = document.getElementById('sample3_extraAddress').value;
+        await setDoc(doc(db, "userInfo", `${user.email}`), {
+            email: user.email,
+            uid: user.uid,
+            isSeller: true,
+            shopName,
+            postCode,
+            address,
+            detailAdress,
+            extraAddress
+        });
+        localStorage.setItem('isSeller', true);
+    } else {
+        await setDoc(doc(db, "userInfo", `${user.email}`), {
+            email: user.email,
+            uid: user.uid
+        });
+    }
+    location.replace('./index.html');
 });
 
 
