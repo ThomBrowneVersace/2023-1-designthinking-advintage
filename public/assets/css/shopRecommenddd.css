@@ -59,6 +59,8 @@ a {
     color: black;
     border-radius: 5px;
     padding: 1rem;
+    position: relative;
+    top: -7rem;
 }
 
 .info {
