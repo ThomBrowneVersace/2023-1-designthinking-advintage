@@ -20,11 +20,17 @@ body {
     background-color: black;
 }
 
-.nav__title {
+.nav a {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 30px;
+    text-decoration: none;
+    color: white;
+}
+
+.nav img {
+    width: 270px;
+    height: 30px;
 }
 
 a {

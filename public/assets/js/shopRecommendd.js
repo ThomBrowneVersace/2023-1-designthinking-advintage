@@ -32,7 +32,6 @@ const positions = [];
 const querySnapshot = await getDocs(q);
 querySnapshot.forEach((doc) => {
   // doc.data() is never undefined for query doc snapshots
-  console.log(doc.id, " => ", doc.data());
   positions.push(doc.data());
 });
         
@@ -56,6 +55,15 @@ for (let i = 0; i < positions.length; i ++) {
     if (status === kakao.maps.services.Status.OK) {
 
       const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+      var polyline = new kakao.maps.Polyline({
+        path: [
+            moveLatLon,
+            coords
+        ]
+      });
+      positions[i].distance = polyline.getLength();
+      positions[i].coords = [result[0].y, result[0].x];
+
       // 결과값으로 받은 위치를 마커로 표시합니다
       const marker = new kakao.maps.Marker({
           map: map,
@@ -97,10 +105,41 @@ for (let i = 0; i < positions.length; i ++) {
     } 
   }); 
 }
+const allShopList = document.querySelector('#all-shops > div:last-child');
+const closeShopList = document.querySelector('#close-shops > div:last-child');
+const closeShops = positions.sort((a, b) => (a.distance - b.distance));
+console.log('close shops: ' + closeShops);
 
-const closeBtns = document.getElementsByClassName('close');
-for(let i = 0; i < closeBtns.length; i++) {
-  closeBtns[i].addEventListener('click', closeOverlay);
+for(let i = 0; i < positions.length; i++) {
+  const shop = createEl(positions[i]);
+  allShopList.append(shop);
+}
+
+for(let i = 0; i < 1; i++) {
+  const shop = createEl(closeShops[i]);
+  closeShopList.append(shop);
+}
+
+function createEl(shop) {
+  console.log(shop);
+  // const [x, y] = shop.coords;
+  const El = document.createElement('div');
+  El.className = 'shop-info';
+  El.innerHTML = '<div class="info">' + 
+  '        <div class="title">' + 
+               shop.title + 
+  '        </div>' + 
+  '        <div class="body">' + 
+  '            <div class="img">' +
+  '                <img src="https://firebasestorage.googleapis.com/v0/b/advintage-d5f8c.appspot.com/o/KakaoTalk_Photo_2023-05-13-13-39-05.jpeg?alt=media&token=e378e274-278e-47f9-93ee-e475a064693f" width="73" height="70">' +
+  '           </div>' + 
+  '            <div class="desc">' + 
+                   shop.address + 
+  // '                <div><a href="https://map.kakao.com/link/to/' + shop.title + ',' + x + ',' + y + '"' + 'target="_blank" class="link">길 찾기</a></div>' + 
+  '            </div>' + 
+  '        </div>' + 
+  '    </div>';
+  return El;
 }
 
 function markCurrentPosition(map) {
@@ -137,8 +176,8 @@ function makeOutListener(infowindow) {
 
 function resizeMap() {
   const mapContainer = document.getElementById('map');
-  mapContainer.style.width = '800px';
   mapContainer.style.height = '100%'; 
+  mapContainer.style.width = '700px';
 }
 
 function relayout(map) {    

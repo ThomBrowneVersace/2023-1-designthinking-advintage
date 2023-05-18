@@ -4,21 +4,36 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="./assets/css/shopRecommenddd.css">
+    <link rel="icon" href="./assets/KakaoTalk_Photo_2023-05-18-21-36-15.jpeg"/>
+    <link rel="stylesheet" type="text/css" href="./assets/css/shopRecommendd.css">
     <title>Second Hand Trade</title>
     <script src="https://kit.fontawesome.com/e67d34325c.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a9cfaf82866b57c31041e46e45720ce4&libraries=services,clusterer,drawing"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a9cfaf82866b57c31041e46e45720ce4"></script>
-    <script src="./assets/js/shopRecommenddd.js" type="module" defer></script>
+    <script src="./assets/js/shopRecommendd.js" type="module" defer></script>
 </head>
 <body>
     <div class="nav">
         <h1 class="nav__title">
-            <a href="index.html">Advintage</a>
+            <a href="index.html">
+                <img src="./assets/O.jpeg">
+            </a>
         </h1>
     </div>
-    <div class="all-shops"></div>
-    <div id="map" style="width:500px;height:400px;"></div>
-    <div class="close-shops"></div>
+    <main>
+        <div class="shops" id="all-shops">
+            <div>
+                <span>빈티지 샵 목록</span>
+            </div>
+            <div></div>
+        </div>
+        <div id="map" style="width:500px;height:400px;"></div>
+        <div class="shops" id="close-shops">
+            <div>
+                <span>가까운 빈티지 샵 목록</span>
+            </div>
+            <div></div>
+        </div>
+    </main>
 </body>
 </html>

@@ -16,16 +16,17 @@ body {
     justify-content: space-between;
 }
 
-.nav__title {
+.nav a {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 30px;
-}
-
-.nav a {
     text-decoration: none;
     color: white;
+}
+
+.nav img {
+    width: 270px;
+    height: 30px;
 }
 
 .nav__btns {
