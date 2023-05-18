@@ -47,8 +47,7 @@ document.getElementById('log-in__btn').addEventListener('click', (event) => {
           localStorage.setItem('isSeller', true);
           console.log(docSnap.data());
         }
-        // location.replace('./index.html');
-        
+        location.replace('./index.html');
     })
     .catch((error) => {
         const errorCode = error.code;
