@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js";
+import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -20,8 +21,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-
-import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 
 const nav = document.querySelector('.nav');
 
@@ -59,6 +58,28 @@ const anchors = document.querySelectorAll('.main__nav__content a');
 const notYet = event => {
     alert('서비스 준비 중입니다. - Addvintage');
 }
+
+const user = await checkLogIn();
+anchors[0].addEventListener('click', platformClickHandler);
 for(let i = 1; i < 4; i++) {
     anchors[i].addEventListener('click', notYet);
+}
+
+async function platformClickHandler(e) {
+    e.preventDefault();
+    const user = await checkLogIn();
+
+    if (user) {
+        location.href = './vintage_platform.html';
+    } else {
+        alert('로그인 또는 회원가입 후 이용바랍니다.');
+    }
+}
+
+function checkLogIn() {
+    const promise = new Promise((resolve, reject) => {
+        const auth = getAuth();
+        resolve(auth.currentUser);
+    })
+    return promise;
 }

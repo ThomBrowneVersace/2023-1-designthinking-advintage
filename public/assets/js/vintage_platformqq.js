@@ -30,7 +30,6 @@ const db = getFirestore(app);
 
 const q = query(collection(db, "platformProducts"), orderBy('timestamp', 'desc'));
 
-const searchItems = document.querySelector('.search-items');
 const categoryFilter = document.querySelector('.category-filter');
 const itemsList = document.querySelector('.item-wrapper');
 

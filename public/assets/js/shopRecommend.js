@@ -52,7 +52,6 @@ for (let i = 0; i < positions.length; i ++) {
 
 
   const [latitude, longitude] = await convertLaLong(geocoder ,shopAddress);
-  console.log(`latitude: ${latitude}, longitude: ${longitude}`);
   const coords = new kakao.maps.LatLng(latitude, longitude);
   var polyline = new kakao.maps.Polyline({
     path: [
@@ -101,14 +100,12 @@ for (let i = 0; i < positions.length; i ++) {
 } 
 
 const allShopList = document.querySelector('#all-shops > div:last-child');
-const closeShopList = document.querySelector('#close-shops > div:last-child');
-const closeShops = positions.sort((a, b) => (a.distance - b.distance));
-console.log('close shops: ' + closeShops);
-
 for(let i = 0; i < positions.length; i++) {
   const shop = createEl(positions[i]);
   allShopList.append(shop);
 }
+const closeShopList = document.querySelector('#close-shops > div:last-child');
+const closeShops = positions.sort((a, b) => (a.distance - b.distance));
 
 for(let i = 0; i < 5; i++) {
   const shop = createEl(closeShops[i]);
@@ -129,7 +126,6 @@ function convertLaLong(geocoder ,address) {
 }
 
 function createEl(shop) {
-  console.log(shop);
   const [x, y] = shop.coords;
   const El = document.createElement('div');
   El.className = 'shop-info';
