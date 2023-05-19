@@ -43,68 +43,63 @@ const moveLatLon = new kakao.maps.LatLng(x, y);
 map.panTo(moveLatLon);
 markCurrentPosition(map);
 
+
+
 for (let i = 0; i < positions.length; i ++) {
   const geocoder = new kakao.maps.services.Geocoder();
   const shopTitle = positions[i].title;
   const shopAddress = positions[i].address;
 
 
-  // 주소로 좌표를 검색합니다
-  geocoder.addressSearch(positions[i].address, function(result, status) {
-    // 정상적으로 검색이 완료됐으면 
-    if (status === kakao.maps.services.Status.OK) {
+  const [latitude, longitude] = await convertLaLong(geocoder ,shopAddress);
+  console.log(`latitude: ${latitude}, longitude: ${longitude}`);
+  const coords = new kakao.maps.LatLng(latitude, longitude);
+  var polyline = new kakao.maps.Polyline({
+    path: [
+        moveLatLon,
+        coords
+    ]
+  });
+  positions[i].distance = polyline.getLength();
+  positions[i].coords = [latitude, longitude]
+  // 결과값으로 받은 위치를 마커로 표시합니다
+  const marker = new kakao.maps.Marker({
+      map: map,
+      position: coords
+  })
+  const overlay = new kakao.maps.CustomOverlay({
+    map: map,
+    position: marker.getPosition()  
+  })
+  const content = document.createElement('div');
+  content.className = 'wrap';
+  content.innerHTML = '<div class="info">' + 
+  '        <div class="title">' + 
+               shopTitle + 
+  '            <div class="close" title="닫기"><i class="fa-solid fa-xmark"></i></div>' + 
+  '        </div>' + 
+  '        <div class="body">' + 
+  '            <div class="img">' +
+  '                <img src="https://firebasestorage.googleapis.com/v0/b/advintage-d5f8c.appspot.com/o/KakaoTalk_Photo_2023-05-13-13-39-05.jpeg?alt=media&token=e378e274-278e-47f9-93ee-e475a064693f" width="73" height="70">' +
+  '           </div>' + 
+  '            <div class="desc">' + 
+                   shopAddress + 
+  '                <div><a href="https://map.kakao.com/link/to/' + shopTitle + ',' + latitude + ',' + longitude + '"' + 'target="_blank" class="link">길 찾기</a></div>' + 
+  '            </div>' + 
+  '        </div>' + 
+  '    </div>';
+  const x = content.querySelector('.close');
+  x.addEventListener('click', (e) => {
+    overlay.setMap(null);
+  })
 
-      const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-      var polyline = new kakao.maps.Polyline({
-        path: [
-            moveLatLon,
-            coords
-        ]
-      });
-      positions[i].distance = polyline.getLength();
-      positions[i].coords = [result[0].y, result[0].x];
+  overlay.setContent(content);
+  overlay.setMap(null);
+  kakao.maps.event.addListener(marker, 'click', function() {
+    overlay.setMap(map);
+  });
+} 
 
-      // 결과값으로 받은 위치를 마커로 표시합니다
-      const marker = new kakao.maps.Marker({
-          map: map,
-          position: coords
-      });
-
-      const overlay = new kakao.maps.CustomOverlay({
-        map: map,
-        position: marker.getPosition()  
-      });
-
-      const content = document.createElement('div');
-      content.className = 'wrap';
-      content.innerHTML = '<div class="info">' + 
-      '        <div class="title">' + 
-                   shopTitle + 
-      '            <div class="close" title="닫기"><i class="fa-solid fa-xmark"></i></div>' + 
-      '        </div>' + 
-      '        <div class="body">' + 
-      '            <div class="img">' +
-      '                <img src="https://firebasestorage.googleapis.com/v0/b/advintage-d5f8c.appspot.com/o/KakaoTalk_Photo_2023-05-13-13-39-05.jpeg?alt=media&token=e378e274-278e-47f9-93ee-e475a064693f" width="73" height="70">' +
-      '           </div>' + 
-      '            <div class="desc">' + 
-                       shopAddress + 
-      '                <div><a href="https://map.kakao.com/link/to/' + shopTitle + ',' + result[0].y + ',' + result[0].x + '"' + 'target="_blank" class="link">길 찾기</a></div>' + 
-      '            </div>' + 
-      '        </div>' + 
-      '    </div>';
-      const x = content.querySelector('.close');
-      x.addEventListener('click', (e) => {
-        overlay.setMap(null);
-      })
-    
-      overlay.setContent(content);
-      overlay.setMap(null);
-      kakao.maps.event.addListener(marker, 'click', function() {
-        overlay.setMap(map);
-      });
-    } 
-  }); 
-}
 const allShopList = document.querySelector('#all-shops > div:last-child');
 const closeShopList = document.querySelector('#close-shops > div:last-child');
 const closeShops = positions.sort((a, b) => (a.distance - b.distance));
@@ -115,14 +110,27 @@ for(let i = 0; i < positions.length; i++) {
   allShopList.append(shop);
 }
 
-for(let i = 0; i < 1; i++) {
+for(let i = 0; i < 5; i++) {
   const shop = createEl(closeShops[i]);
   closeShopList.append(shop);
 }
 
+function convertLaLong(geocoder ,address) {
+  const promise = new Promise((resolve, reject) => {
+    // 주소로 좌표를 검색합니다
+    geocoder.addressSearch(address, function(result, status) {
+      // 정상적으로 검색이 완료됐으면 
+      if (status === kakao.maps.services.Status.OK) {
+        resolve([result[0].y, result[0].x]);
+      }
+    })
+  })
+  return promise;
+}
+
 function createEl(shop) {
   console.log(shop);
-  // const [x, y] = shop.coords;
+  const [x, y] = shop.coords;
   const El = document.createElement('div');
   El.className = 'shop-info';
   El.innerHTML = '<div class="info">' + 
@@ -135,7 +143,7 @@ function createEl(shop) {
   '           </div>' + 
   '            <div class="desc">' + 
                    shop.address + 
-  // '                <div><a href="https://map.kakao.com/link/to/' + shop.title + ',' + x + ',' + y + '"' + 'target="_blank" class="link">길 찾기</a></div>' + 
+  '                <div><a href="https://map.kakao.com/link/to/' + shop.title + ',' + x + ',' + y + '"' + 'target="_blank" class="link">길 찾기</a></div>' + 
   '            </div>' + 
   '        </div>' + 
   '    </div>';
