@@ -1,12 +1,13 @@
 const postBtn = document.querySelector('.nav__btn');
 let sorted = -1;
+console.log('hihihi');
 
 if (!localStorage.getItem('isSeller')) {
     postBtn.classList.add('invisible');
 }
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-import { getFirestore, doc, collection, query, where, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
+import { getFirestore, getDoc, collection, query, doc, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
 import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-storage.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -31,7 +32,9 @@ const db = getFirestore(app);
 const q = query(collection(db, "platformProducts"), orderBy('timestamp', 'desc'));
 
 const categoryFilter = document.querySelector('.category-filter');
-const itemsList = document.querySelector('.item-wrapper');
+const itemsList = document.getElementsByClassName('item-wrapper')[0];
+itemsList.addEventListener('click', itemClickHandler);
+
 
 const defualtItems = [];
 let items = [];
@@ -166,10 +169,154 @@ function filterItems(inputedSizeFilter) {
 renderItems();
 
 
+async function itemClickHandler(e) {
+    const item = e.target.closest('.item-box');
+    if (!item) {
+        return;
+    }
+    const title = item.querySelector('.item-box__content span').textContent;
+    const docRef = doc(db, "platformProducts", title);
+    const docSnap = await getDoc(docRef);
 
-const itemModal = document.querySelector('.item-modal-wrapper');
-const itemModalExit = itemModal.querySelector('#exit');
+    if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+      } else {
+        // docSnap.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    const modalEl = createItemModalElement(docSnap.data());
+    itemsList.after(modalEl);
+    
+}
 
-itemModalExit.addEventListener('click', () => {
-    itemModal.classList.toggle('invisible');
-})
+
+// category: "pants"
+// description: "just car"
+// imgs: (4) ['https://firebasestorage.googleapis.com/v0/b/advint…=media&token=d55a6447-5581-4ad6-ac9d-c9424d0887ae', 'https://firebasestorage.googleapis.com/v0/b/advint…=media&token=8c3b93da-c923-451f-9e9d-6ba9658c0b45', 'https://firebasestorage.googleapis.com/v0/b/advint…=media&token=e024ba2f-1f00-45c1-b15d-99a32b978ae5', 'https://firebasestorage.googleapis.com/v0/b/advint…=media&token=94c29787-d238-4e19-94b8-a548e7cfdeb8']
+// price: "1000000"
+// shopTitle: "승훈이네"
+// size: (5) [10, 20, 30, 40, 50]
+// sml: "m"
+// timestamp: os {seconds: 1684499321, nanoseconds: 856000000}
+// title: "cars"
+
+function createItemModalElement(item) {
+    const modalWrapper = document.createElement('div');
+    modalWrapper.className = 'item-modal-wrapper';
+    modalWrapper.innerHTML = `
+    <div class="item-modal">
+        <div class="item-modal__img">
+            <div class="slider">
+                <input type="radio" name="slide" id="slide1" checked>
+                <input type="radio" name="slide" id="slide2">
+                <input type="radio" name="slide" id="slide3">
+                <input type="radio" name="slide" id="slide4">
+                <div class="bullets">
+                    <label for="slide1">&nbsp;</label>
+                    <label for="slide2">&nbsp;</label>
+                    <label for="slide3">&nbsp;</label>
+                    <label for="slide4">&nbsp;</label>
+                </div>
+            </div>
+        </div>
+        <div class="item-modal__info">
+            <div>
+                <i class="fa-solid fa-xmark fa-2xl" id="exit"></i>
+            </div>
+            <ul>
+                <li>
+                    <div class="item-modal__info__contents" id="title">${item.title}</div>
+                </li>
+                <li>
+                    <div class="item-modal__info__contents" id="price">${item.price}원</div>
+                </li>
+                <li>
+                    <p>${item.description}</p>
+                </li>
+            </ul>
+            <button>Buy</button>
+        </div>
+    </div>
+    `
+    const bullets = modalWrapper.querySelector('.bullets');
+    const imgHoldr = createImgHolderElement(item.imgs);
+    bullets.before(imgHoldr);
+    const buyBtn = modalWrapper.querySelector('.item-modal button');
+    const sizeTable = createSizeTableElement(item);
+    buyBtn.before(sizeTable);
+
+    const itemModalExit = modalWrapper.querySelector('#exit');
+    itemModalExit.addEventListener('click', e => {
+        modalWrapper.remove();
+    })
+
+    return modalWrapper;
+}
+
+function createSizeTableElement(item) {
+    const sizeTable = document.createElement('table');
+    sizeTable.className = 'item-modal__info__size';
+    console.log(item.category);
+    if (item.category === 'top' || item.category === 'outer') {
+        sizeTable.innerHTML = `
+            <th>총장</th>
+            <th>어깨너비</th>
+            <th>가슴단면</th>
+            <th>소매길이</th>
+            <tr>
+                <td>${item.size[0]}cm</td>
+                <td>${item.size[1]}cm</td>
+                <td>${item.size[2]}cm</td>
+                <td>${item.size[3]}cm</td>
+            </tr>
+        `;
+    } else if (item.category === 'pants') {
+        console.log('thisthis');
+        sizeTable.innerHTML = `
+            <th>총장</th>
+            <th>허리단면</th>
+            <th>허벅지단면</th>
+            <th>밑위</th>
+            <th>밑단단면</th>
+            <tr>
+                <td>${item.size[0]}cm</td>
+                <td>${item.size[1]}cm</td>
+                <td>${item.size[2]}cm</td>
+                <td>${item.size[3]}cm</td>
+                <td>${item.size[4]}cm</td>
+            </tr>
+        `;
+    } else if (item.category === 'shoes') {
+        sizeTable.innerHTML = `
+            <th>사이즈</th>
+            <tr>
+                <td>${item.size[0]}cm</td>
+            </tr>
+        `;
+    } else if (item.category === 'headwear') {
+        sizeTable.innerHTML = `
+            <th>머리둘레</th>
+            <th>깊이</th>
+            <th>챙길이</th>
+            <tr>
+                <td>${item.size[0]}cm</td>
+                <td>${item.size[1]}cm</td>
+                <td>${item.size[2]}cm</td>
+            </tr>
+        `;
+    }
+    console.log(sizeTable);
+    return sizeTable;
+}
+
+function createImgHolderElement(imgs) {
+    const holder = document.createElement('ul');
+    holder.className = 'imgs';
+    holder.id = 'imgholder';
+    for(let i = 0; i < imgs.length; i++) {
+        const list = document.createElement('li');
+        list.innerHTML = `<img src="${imgs[i]}">`;
+        holder.append(list);
+    }
+    return holder;
+}
