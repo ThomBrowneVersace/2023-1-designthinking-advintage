@@ -151,6 +151,7 @@ function returnSizeFilterInputs() {
 
 function filterItems(inputedSizeFilter) {
     console.log(inputedSizeFilter);
+    items = [...defualtItems];
     const promise = new Promise ((resolve, reject) => {
         for(let i = 0; i < inputedSizeFilter.length; i+= 2) {
             if (isNaN(inputedSizeFilter[i]) || isNaN(inputedSizeFilter[i+1])) {
