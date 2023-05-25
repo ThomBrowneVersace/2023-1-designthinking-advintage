@@ -40,6 +40,7 @@ document.querySelector('.sign-up-form button').addEventListener('click', async (
     localStorage.setItem('user', user.email);
     // ...
     if (checkSellerBox.checked) {
+        const shopImg = document.getElementById('img-upload');
         const shopName = document.getElementById('shop-name').value;
         const postCode = document.getElementById('sample3_postcode').value;
         const address = document.getElementById('sample3_address').value;
@@ -50,6 +51,13 @@ document.querySelector('.sign-up-form button').addEventListener('click', async (
             uid: user.uid,
             isSeller: true,
             shopName,
+            postCode,
+            address,
+            detailAdress,
+            extraAddress
+        });
+        await setDoc(doc(db, "shopInfo", `${shopName}`), {
+            title: shopName,
             postCode,
             address,
             detailAdress,
@@ -69,3 +77,37 @@ document.querySelector('.sign-up-form button').addEventListener('click', async (
 checkSellerBox.addEventListener('click', event => {
     sellerInfo.classList.toggle('invisible');
 });
+
+// productImgUpload.addEventListener('change', event => {
+//     const files = productImgUpload.files;
+//     event.preventDefault();
+  
+//     if ([...files].length >= 7) {
+//       alert('이미지는 최대 6개까지 업로드가 가능합니다.');
+//       productImgUpload.value = '';
+//       return;
+//     }
+//     [...files].forEach(file => {
+//       if (!file.type.match("image/.*")) {
+//         alert('이미지 파일만 업로드가 가능합니다.');
+//         productImgUpload.value = '';
+//         return;
+//       }
+//     });
+  
+//     [...files].forEach(file => {
+//       if (uploadFiles.length >= 6) {
+//         alert('이미지는 최대 6개까지 업로드가 가능합니다.');
+//         productImgUpload.value = '';
+//         return;
+//       }
+//       uploadFiles.push(file);
+//       const reader = new FileReader();
+//       reader.onload = (e) => {
+//         const preview = createElement(e, file);
+//         preview.id = `img${uploadFiles.length}`;
+//         productImgLists.appendChild(preview);
+//       };
+//       reader.readAsDataURL(file);
+//     })
+//   });

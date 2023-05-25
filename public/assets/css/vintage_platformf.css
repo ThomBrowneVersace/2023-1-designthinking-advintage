@@ -1,0 +1,407 @@
+@import 'reset.css';
+
+html {
+    overflow: hidden;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    color: black;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav {
+    display: flex;
+    height: 5rem;
+    width: 100%;
+    padding: 1.5rem;
+    background-color: black;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.nav__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+}
+
+.nav img {
+    height: 1.5rem;
+}
+
+.nav__btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.nav__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0rem 0.5rem;
+}
+
+.brands {
+    position: absolute;
+    width: 10%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1%;
+    left: 0%;
+}
+
+.brands > span {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.brands__help {
+    margin: 10% 0%;
+}
+
+.brands__help span:first-child {
+    color: red;
+}
+
+.brands__help span:nth-child(2) {
+    color: blue;
+}
+
+.brands__help span:nth-child(3) {
+    color: green;
+}
+
+.brands__help span:nth-child(4) {
+    color: bisque;
+}
+
+.brands__brand {
+    color: red;
+    margin: 1% 0%;
+}
+
+.brands__brand a {
+    text-decoration: none;
+    color: red;
+}
+
+.brands__brand:last-child a{
+    color: green;
+}
+
+.search-items {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0rem;
+    width: 100%;
+    overflow-y: scroll;
+    box-sizing: border-box;
+}
+
+.category-filter {
+    display: flex;
+    justify-content: center;
+    overflow: auto;
+}
+
+.filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.size-filter {
+    margin: 0rem 0.5rem;
+}
+
+.size-filter input {
+    width: 3rem;
+    height: 1rem;
+}
+
+.item-wrapper {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+	grid-template-columns: repeat(2, 12rem);
+    width: 80%;
+    overflow: scroll;
+}
+
+.item-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.6rem;
+    width: 12rem;
+    height: 18rem;
+}
+
+.item-box__img img {
+    width: 12rem;
+    height: 15rem;
+}
+
+.item-box__contents {
+    width: 100%;
+    border: 1px solid black;
+    color: black;
+}
+
+.item-box__content {
+    display: flex;
+    width: 100%;
+    margin: 0.4rem 0rem;
+}
+
+.item-modal-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+}
+
+.item-modal {
+    color: black;
+    display: flex;
+    background: white;
+    height: 80%;
+    margin: 2rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    padding: 2rem;
+}
+
+.item-modal > * {
+    display: flex;
+    width: 50%;
+}
+
+.slider{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden; /* 현재 슬라이드 오른쪽에 위치한 나머지 슬라이드 들이 보이지 않도록 가림 */
+}
+
+.slider input[type=radio]{
+    display: none;
+}
+
+ul.imgs{
+    padding: 0;
+    margin: 0;
+    list-style: none;    
+    width: 100%;
+    height: 100%;
+}
+
+ul.imgs li{
+    position: absolute;
+    left: 100%;
+    transition-delay: 1s; /* 새 슬라이드가 이동해 오는 동안 이전 슬라이드 이미지가 배경이 보이도록 지연 */
+
+    width: 100%;
+    height: 100%;
+
+    padding: 0;
+    margin: 0;
+}
+
+ul.imgs img{
+    width: 100%;
+    max-height: 100%; 
+}
+
+.bullets{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 20px;
+    z-index: 2;
+}
+.bullets label{
+    display: inline-block;
+    border-radius: 50%;
+    background-color: rgba(0,0,0,0.55);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+/* 현재 선택된 불릿 배경 흰색으로 구분 표시 */
+.slider input[type=radio]:nth-child(1):checked~.bullets>label:nth-child(1){
+    background-color: blue;
+}
+.slider input[type=radio]:nth-child(2):checked~.bullets>label:nth-child(2){
+    background-color: blue;
+}
+.slider input[type=radio]:nth-child(3):checked~.bullets>label:nth-child(3){
+    background-color: blue;
+}
+.slider input[type=radio]:nth-child(4):checked~.bullets>label:nth-child(4){
+    background-color: blue;
+}
+
+.slider input[type=radio]:nth-child(1):checked~ul.imgs>li:nth-child(1){
+    left: 0;
+    transition: 0.5s;
+    z-index:1;
+}
+.slider input[type=radio]:nth-child(2):checked~ul.imgs>li:nth-child(2){
+    left: 0;
+    transition: 0.5s;
+    z-index:1;
+}
+.slider input[type=radio]:nth-child(3):checked~ul.imgs>li:nth-child(3){
+    left: 0;
+    transition: 0.5s;
+    z-index:1;
+}
+.slider input[type=radio]:nth-child(4):checked~ul.imgs>li:nth-child(4){
+    left: 0;
+    transition: 0.5s;
+    z-index:1;
+}
+
+.item-modal__info {
+    flex-direction: column;
+    padding: 30px;
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+table{
+    display:flex;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-bottom: 2rem;
+}
+    
+tbody {
+    display:flex
+}
+    
+th,td {
+    display:block;
+    border: 1px solid black;
+}
+
+#title {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+#price {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+#exit {
+    display: flex;
+    justify-content: end;
+    position: relative;
+    top: -1.5rem;
+    right: -2.5rem;
+    opacity: 0.4;
+}
+
+.item-modal__img {
+    display: flex;
+    height: 100%;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    color: black;
+    width: fit-content;
+    padding: .5rem 1rem;
+    margin: 0rem 0.3rem;
+    border-radius: 1rem;
+    border: 1px solid black;
+    background: transparent;
+    cursor: pointer;
+}
+
+button:hover {
+    background: black;
+    color: white;
+    transition: all 0.2s ease-in-out;
+}
+
+ul {
+    list-style: none;
+    padding: 0px;
+}
+
+.invisible {
+    display: none;
+}
+
+.brand-popUp {
+    display: flex;
+    flex-direction: row;
+    width: 30rem;
+    height: 15rem;
+    color: white;
+    background-color: black;
+    border-radius: 0.5rem;
+    margin-left: 1rem;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    position: fixed;
+}
+
+.brand-popUp__img {
+    width: 15rem;
+    height: 15rem;
+}
+
+.brand-popUp__info {
+    display: flex;
+    flex-direction: column;
+    width: 15rem;
+    padding: 0.5rem;
+    box-sizing: border-box;
+}
+
+.brand-popUp__info > div {
+    margin: 0.5rem 0rem;
+}
+
+.brand-popUp__keyword {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.brand-popUp img {
+    width: 100%;
+}

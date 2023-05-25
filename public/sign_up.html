@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="./assets/css/sign_upp.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/sign_upa.css">
     <title>Sign up / Log in</title>
 </head>
 <body>
     <div class="nav">
         <h1 class="nav__title">
-            <a href="index.html">Advintage</a>
+            <a href="index.html">
+                <img src="./assets/O.jpeg">
+            </a>
         </h1>
     </div>
     <main>
@@ -27,6 +29,10 @@
             <div class="seller-info invisible">
                 <span>Vintage Shop Info</span>
                 <p>Please input your shop info.</p>
+                <div class="post-form__input-wrapper">
+                    <span>Shop Profile Image</span>
+                    <input type="file" accept="img/*" id="img-upload" required/>
+                </div>
                 <input type="text" id="shop-name" placeholder="Shop name" />
                 <div>
                     <input type="text" id="sample3_postcode" placeholder="우편번호">
