@@ -1,3 +1,12 @@
+const ua = navigator.userAgent;
+console.log(ua);
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|KAKAO|KAKAOTALK|Opera Mini/i.test(ua) || !ua || ua.indexOf('KAKAO') > -1) {
+  // 모바일인 경우
+  const vid = document.getElementById('background-video');
+  alert("(참고) Addvintage 서비스는 PC환경에 최적화 되어있습니다. -Addvintage")
+  vid.autoplay = false;
+}
+
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js";

@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-import { getFirestore, collection, query, getDocs} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
+import { getFirestore, collection, query, getDocs, where} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDo5bC-RBUsX8xBR4i3YBDImhorl5j9Nxc",
@@ -16,7 +16,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const q = query(collection(db, "shopInfo"));
+const q = query(collection(db, "shopInfo"), where("address", "!=", ""));
 
 const mapContainer = document.getElementById('map'), // 지도를 표시할 div  
     mapOption = { 

@@ -3,12 +3,11 @@
 body {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     height: 100vh;
     width: 100vw;
     color: black;
     box-sizing: border-box;
+    overflow: hidden;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
@@ -27,15 +26,18 @@ main {
 
 .nav {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 32px;
-    width: 98%;
-    padding: 23px;
+    height: 5rem;
+    width: 100%;
+    padding: 1.5rem;
     background-color: black;
-    position: absolute;
-    z-index: 2;
-    top: 0px;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.nav__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .nav a {
@@ -47,22 +49,8 @@ main {
 }
 
 .nav img {
-    width: 270px;
-    height: 30px;
+    height: 1.5rem;
 }
-
-a {
-    text-decoration: none;
-    color: white;
-    margin: 0rem 0.5rem;
-}
-
-.nav_btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 
 #map {
     display: flex;
@@ -80,11 +68,6 @@ a {
     padding: 1rem;
     position: relative;
     top: -7rem;
-}
-
-.info {
-    display: flex;
-    flex-direction: column;
 }
 
 .title {
@@ -138,4 +121,83 @@ a {
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
+}
+
+@media (max-width: 767px){
+    body {
+        height: 120vh;
+        overflow-y: scroll;
+        box-sizing: border-box;
+    }
+
+    .nav {
+        height: 10vh;
+    }
+
+    main {
+        height: 90vh;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow-x: hidden;
+    }
+
+    .title {
+        font-size: 20px;
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.5rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    }
+    
+    .body {
+        display: flex;
+        flex-direction: row;
+    }
+    
+    .desc a {
+        color: rgb(0, 162, 255);
+    }
+    
+    .shops {
+        display: flex;
+        flex-direction: column;
+        height: 30%;
+        width: 100%;
+        padding: 1rem;
+        box-sizing: border-box;
+        margin: 0px 20px;
+        border: 1px solid black;
+    }
+    
+    .shop-info {
+        width: 18rem;
+        height: 7rem;
+        background-color: white;
+        color: black;
+        border-radius: 0px;
+        padding: 1rem;
+        box-sizing: border-box;
+        min-width: fit-content
+    }
+    
+    .shops span {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        font-size: 20px;
+        height: 25px;
+        border-bottom: 1px solid black;
+    }
+    
+    .shops > div:last-child {
+        display: flex;
+        height: 100%;
+        flex-direction: row;
+        overflow-x: scroll;
+    }
+
+    .shops img {
+        display: none;
+    }
 }
