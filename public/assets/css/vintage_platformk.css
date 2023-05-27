@@ -1,5 +1,5 @@
 @import 'reset.css';
-@import './components/item-modala.css';
+@import './components/item-modalb.css';
 
 body {
     width: 100vw;
@@ -222,6 +222,7 @@ body {
     .search-items {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         padding: 1rem 0rem;
         width: 100%;
         overflow-y: scroll;
@@ -248,5 +249,23 @@ body {
         padding: 1%;
         left: 0%;
         top: 10rem;
+    }
+
+    .filter {
+        justify-content: left;
+        align-items: center;
+        z-index: -1;
+        width: 80%;
+    }
+    
+    .size-filter {
+        margin: 0rem 0.5rem;
+        height: 2rem;
+        min-width: fit-content;
+    }
+    
+    .size-filter input {
+        width: 3rem;
+        height: 1rem;
     }
 }
