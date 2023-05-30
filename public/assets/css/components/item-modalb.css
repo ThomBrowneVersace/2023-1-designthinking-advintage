@@ -113,6 +113,8 @@ ul.imgs img{
 }
 
 .item-modal__info {
+    font-family: 'TheJamsil5Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
     flex-direction: column;
     padding: 30px;
     border-left: 1px solid rgba(0, 0, 0, 0.2);
@@ -301,9 +303,11 @@ button:hover {
     
     .item-modal__info {
         flex-direction: column;
+        justify-content: left;
         width: 100%;
         padding: 0rem;
         border: none;
+        overflow-y: scroll;
     }
     
     table{
@@ -365,5 +369,8 @@ button:hover {
         background: black;
         color: white;
         transition: all 0.2s ease-in-out;
+    }
+    .item-modal__info__size {
+        display: flex;
     }
 }
