@@ -1,5 +1,8 @@
 @import 'reset.css';
 
+/* components */
+@import './components/nav.css';
+
 body {
     display: flex;
     flex-direction: column;
@@ -18,32 +21,6 @@ main {
 
 .invisible {
     display: none;
-}
-
-.nav {
-    display: flex;
-    height: 32px;
-    padding: 23px;
-    background-color: black;
-    font-size: 30px;
-    width: 100%;
-}
-
-.nav__title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.nav__title  a {
-    margin-left: 23px;
-    text-decoration: none;
-    color: white;
-}
-
-.nav img {
-    width: 270px;
-    height: 30px;
 }
 
 .log-in {

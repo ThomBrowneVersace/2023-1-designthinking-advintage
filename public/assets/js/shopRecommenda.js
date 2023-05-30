@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
 import { getFirestore, collection, query, getDocs, where} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
-
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js";
 const firebaseConfig = {
   apiKey: "AIzaSyDo5bC-RBUsX8xBR4i3YBDImhorl5j9Nxc",
   authDomain: "advintage-d5f8c.firebaseapp.com",
@@ -14,6 +14,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
 const q = query(collection(db, "shopInfo"), where("address", "!=", ""));
