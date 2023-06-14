@@ -5,31 +5,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="./assets/KakaoTalk_Photo_2023-05-18-21-36-15.jpeg"/>
-    <link rel="stylesheet" type="text/css" href="./assets/css/platform_postu.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/platform_post.css">
     <title>Post</title>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/e67d34325c.js" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3089289380097801"
+     crossorigin="anonymous"></script>
 </head>
 <body>
     <template id="top/outer-template">
-        <input class="size-inputs" type="text" placeholder="총장"/>
-        <input class="size-inputs" type="text" placeholder="어깨너비"/>
-        <input class="size-inputs" type="text" placeholder="가슴단면"/>
-        <input class="size-inputs" type="text" placeholder="소매길이"/>
+        <input class="size-inputs" type="text" placeholder="총장 (단위: cm)"/>
+        <input class="size-inputs" type="text" placeholder="어깨너비 (단위: cm)"/>
+        <input class="size-inputs" type="text" placeholder="가슴단면 (단위: cm)"/>
+        <input class="size-inputs" type="text" placeholder="소매길이 (단위: cm)"/>
     </template>
     <template id="pants-template">
-        <input class="size-inputs" type="text" placeholder="총장"/>
-        <input class="size-inputs" type="text" placeholder="허리단면"/>
-        <input class="size-inputs" type="text" placeholder="허벅지단면"/>
-        <input class="size-inputs" type="text" placeholder="밑위"/>
-        <input class="size-inputs" type="text" placeholder="밑단단면"/>
+        <input class="size-inputs" type="text" placeholder="총장 (단위: cm)"/>
+        <input class="size-inputs" type="text" placeholder="허리단면 (단위: inch)"/>
+        <input class="size-inputs" type="text" placeholder="허벅지 (단위: cm)"/>
+        <input class="size-inputs" type="text" placeholder="밑위 (단위: cm)"/>
+        <input class="size-inputs" type="text" placeholder="밑단단면 (단위: cm)"/>
     </template>
     <template id="shoes-template">
-        <input class="size-inputs" type="text" placeholder="사이즈"/>
+        <input class="size-inputs" type="text" placeholder="사이즈 (단위: cm)"/>
     </template>
     <template id="headwear-template">
-        <input class="size-inputs" type="text" placeholder="머리둘레"/>
-        <input class="size-inputs" type="text" placeholder="깊이"/>
-        <input class="size-inputs" type="text" placeholder="챙길이"/>
+        <input class="size-inputs" type="text" placeholder="머리둘레 (단위: cm)"/>
+        <input class="size-inputs" type="text" placeholder="깊이 (단위: cm)"/>
+        <input class="size-inputs" type="text" placeholder="챙 (단위: cm)"/>
     </template>
     <div class="nav">
         <h1 class="nav__title">
@@ -57,11 +60,15 @@
             </div>
             <div class="post-form__input-wrapper">
                 <span>가격</span>
-                <input type="text" placeholder="가격" />
+                <input type="text" placeholder="가격 (ex: 100000)" />
             </div>
             <div class="post-form__input-wrapper">
                 <span>상품설명</span>
                 <input type="text" placeholder="상품 설명" />
+            </div>
+            <div class="post-form__input-wrapper">
+                <span>상품링크</span>
+                <input type="text" placeholder="인스타그램 해당 상품 게시물 링크" />
             </div>
             <span id="sizes-title">Sizes</span>
             <label for="category">Category</label>
@@ -72,6 +79,7 @@
                 <option value="shoes">Shoes</option>
                 <option value="bag">Bag</option>
                 <option value="headwear">Headwear</option>
+                <option value="acc">Acc</option>
             </select>
             <label for="option">Option</label>
             <select name="option" id="option" autofocus>
@@ -85,6 +93,6 @@
             <button>Post</button>
         </form>
     </main>
-    <script src="./assets/js/platform_postb.js" defer type="module"></script>
+    <script src="./assets/js/platform_posta.js" defer type="module"></script>
 </body>
 </html>

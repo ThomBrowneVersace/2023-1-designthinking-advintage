@@ -1,19 +1,33 @@
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    unicode-range: U+AC00-D7A3;
+}
+
 .item-modal-wrapper {
     position: absolute;
+    z-index: 9999;
     top: 0;
     left: 0;
     bottom: 0;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     background: rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
+    font-family: 'NanumSquareNeo-Variable', 'EB Garamond', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .item-modal {
     color: black;
     display: flex;
     background: white;
-    height: 80%;
+    height: 70%;
+    width: 70%;
     margin: 2rem;
     border-radius: 1rem;
     overflow: hidden;
@@ -62,6 +76,10 @@ ul.imgs img{
     max-height: 100%; 
 }
 
+ul > li:first-child {
+    font-size: 1.5rem;
+}
+
 .bullets{
     position: absolute;
     left: 50%;
@@ -90,6 +108,12 @@ ul.imgs img{
 .slider input[type=radio]:nth-child(4):checked~.bullets>label:nth-child(4){
     background-color: blue;
 }
+.slider input[type=radio]:nth-child(5):checked~.bullets>label:nth-child(5){
+    background-color: blue;
+}
+.slider input[type=radio]:nth-child(6):checked~.bullets>label:nth-child(6){
+    background-color: blue;
+}
 
 .slider input[type=radio]:nth-child(1):checked~ul.imgs>li:nth-child(1){
     left: 0;
@@ -111,36 +135,63 @@ ul.imgs img{
     transition: 0.5s;
     z-index:1;
 }
+.slider input[type=radio]:nth-child(5):checked~ul.imgs>li:nth-child(5){
+    left: 0;
+    transition: 0.5s;
+    z-index:1;
+}
+.slider input[type=radio]:nth-child(6):checked~ul.imgs>li:nth-child(6){
+    left: 0;
+    transition: 0.5s;
+    z-index:1;
+}
 
 .item-modal__info {
-    font-family: 'TheJamsil5Bold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+    font-family: 'NanumSquareNeo-Variable', 'EB Garamond', serif;
     flex-direction: column;
+    line-height: 1.5rem;
     padding: 30px;
     border-left: 1px solid rgba(0, 0, 0, 0.2);
 }
 
+.item-modal button {
+    position: relative;
+    right: -80%;
+    z-index: 5;
+}
+
 table{
-    display:flex;
+    margin: 3rem 0rem;
     display: -webkit-box;
-    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
     overflow-x: auto;
     overflow-y: hidden;
     margin-bottom: 2rem;
+    width: 100%
 }
     
 tbody {
-    display:flex
+    display:flex;
+    width: 20rem;
+}
+
+tr {
+    width: 50%;
 }
     
 th,td {
-    display:block;
+    display:flex;
     border: 1px solid black;
+    justify-content: center;
 }
 
 #title {
     font-size: 30px;
     font-weight: 700;
+    font-family: 'NanumSquareNeo-Variable', 'EB Garamond', serif;
+    line-height: 2rem;
+    margin: 0.7rem 0rem;
 }
 
 #price {
@@ -156,6 +207,7 @@ th,td {
     top: -1.5rem;
     right: -2.5rem;
     opacity: 0.4;
+    z-index: 100;
 }
 
 .item-modal__img {
@@ -253,10 +305,15 @@ button:hover {
     
     .bullets{
         position: absolute;
+        display: flex;
+        width: 100%;
+        height: 20px;
         left: 50%;
         transform: translateX(-50%);
         bottom: 20px;
         z-index: 2;
+        box-sizing: border-box;
+        justify-content: center;
     }
     .bullets label{
         display: inline-block;
@@ -265,6 +322,7 @@ button:hover {
         width: 20px;
         height: 20px;
         cursor: pointer;
+        margin: 0rem 1rem;
     }
     /* 현재 선택된 불릿 배경 흰색으로 구분 표시 */
     .slider input[type=radio]:nth-child(1):checked~.bullets>label:nth-child(1){
@@ -307,6 +365,10 @@ button:hover {
         width: 100%;
         padding: 0rem;
         border: none;
+        overflow: scroll;
+    }
+
+    .item-modal__info ul {
         overflow-y: scroll;
     }
     
@@ -358,7 +420,7 @@ button:hover {
         color: black;
         width: fit-content;
         padding: .5rem 1rem;
-        margin: 0rem 0.3rem;
+        margin: 1rem 0.3rem;
         border-radius: 1rem;
         border: 1px solid black;
         background: transparent;
@@ -372,5 +434,7 @@ button:hover {
     }
     .item-modal__info__size {
         display: flex;
+        margin: 0rem;
+        overflow: scroll;
     }
 }

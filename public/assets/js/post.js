@@ -1,12 +1,11 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-import { getFirestore, getDoc } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-storage.js";
 import { doc, setDoc } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-
+console.log('hi');
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -25,10 +24,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const storage = getStorage(app);
-const auth = getAuth();
-const user = auth.currentUser;
 
-console.log(user);
 
 // Templates
 const topTemplate = document.getElementById('top/outer-template');
@@ -37,12 +33,10 @@ const shoesTemplate = document.getElementById('shoes-template');
 const headwearTemplate = document.getElementById('headwear-template');
 
 // Elements
-const postFrom = document.querySelector('.post-form');
 const postingBtn = document.querySelector('.post-form button');
 const productImgUpload = document.getElementById('img-upload');
 const productImgLists = document.querySelector('.post-form__img-preview ul');
 const selectCategory = document.getElementById('category');
-const selectOption = document.getElementById('option');
 const uploadFiles = [];
 
 productImgUpload.addEventListener('change', event => {
@@ -103,7 +97,7 @@ function createElement(e, file) {
 }
 
 const sizes = document.importNode(topTemplate.content, true);
-postingBtn.before(sizes);
+selectCategory.after(sizes);
 
 selectCategory.addEventListener('change', event => {
   event.preventDefault();
@@ -124,11 +118,11 @@ selectCategory.addEventListener('change', event => {
   } else {
     return;
   }
-  postingBtn.before(sizes);
-
+  selectCategory.after(sizes);
 });
 
 // postingBtn.addEventListener('click', (event) => {
+//   console.log(1);
 //   const postFormInputs = document.querySelectorAll('.post-form__input-wrapper input');
 //   const category = document.getElementById('category');
 //   const imgNames = ['str'];
@@ -140,6 +134,9 @@ selectCategory.addEventListener('change', event => {
 //     uploadBytes(storageRef, file).then((snapshot) => {
 //       console.dir(snapshot);
 //       imgNames.push(`${snapshot.metadata.contentType}`)
+//     }).catch(error => {
+//       console.log(error);
+//       console.log('Posting 권한이 없습니다.');
 //     });
 //   });
 //   console.dir(imgNames);
@@ -162,39 +159,30 @@ postingBtn.addEventListener('click', async (event) => {
   const sizes = [...document.getElementsByClassName('size-inputs')];
   const sizesValue = sizes.map(size => parseInt(size.value));
   event.preventDefault();
-  console.log("uploadFiles", uploadFiles);
   try {
+    console.log("uploadFiles", uploadFiles);
     for (const file of uploadFiles) {
         const storageRef = ref(storage, `personalProductsImg/${file.name}`);
         const uploadResp = await uploadBytes(storageRef, file);
+        console.log("uploadResp", uploadResp);
         const url = await getDownloadURL(uploadResp.ref);
         imgPaths.push(url);
     }
 
-    console.log("imgPaths", imgPaths);
-    const docRef = doc(db, "userInfo", localStorage.getItem('user'));
-    const docSnap = await getDoc(docRef);
-    const setResp = await setDoc(doc(db, "platformProducts", `${postFormInputs[1].value}`), {
-        title: `${postFormInputs[1].value}`,
-        price: `${postFormInputs[2].value}`,
-        description: `${postFormInputs[3].value}`,
+    const setResp = await setDoc(doc(db, "personalProducts", category.value, `${category.value}Products`, `${postFormInputs[0].value}`), {
+        title: `${postFormInputs[0].value}`,
+        price: `${postFormInputs[1].value}`,
+        description: `${postFormInputs[2].value}`,
         category: `${category.value}`,
         imgs: imgPaths,
-        size: [...sizesValue],
-        sml: selectOption.value,
-        shopTitle: docSnap.data().shopName,
-        timestamp: new Date()
+        size: [...sizesValue]
     });
-    location.replace('./vintage_platform.html');
   } catch (error) {
-    if (error.code === "permission-denied") {
-      console.log(error);
-      alert("접근 권한이 없습니다. 이메일 인증을 완료해주세요.");
-      // history.back();
-    } else if (error.code === "invalid-argument") {
-      alert("잘못된 상품명입니다.");
-    }
+    alert(error);
   }
+
+  console.log("setResp", setResp);
+  location.replace('./second_hand_trade.html');
 })
 
 

@@ -1,7 +1,16 @@
+const ua = navigator.userAgent;
 const postBtn = document.querySelector('.nav__btn');
 let sorted = -1;
 
-console.log('hello');
+console.log('hi');
+
+if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|KAKAO|KAKAOTALK|Opera Mini/i.test(ua) || !ua || ua.indexOf('KAKAO') > -1)) {
+    const menuBtn = document.getElementById('menu');
+    // menuBtn.remove();
+  }
+// console.log('hello');
+
+const menuBtn = document.getElementById('menu');
 
 if (!localStorage.getItem('isSeller')) {
     postBtn.classList.add('invisible');
@@ -36,22 +45,18 @@ const categoryFilter = document.querySelector('.category-filter');
 const itemsList = document.getElementsByClassName('item-wrapper')[0];
 itemsList.addEventListener('click', itemClickHandler);
 
-
-const defualtItems = [];
-let items = [];
-
 //templates
 const topFilterTemplate = document.getElementById('top-filter-template');
 const pantsFilterTemplate = document.getElementById('pants-filter-template');
 const shoesFilterTemplate = document.getElementById('shoes-filter-template');
 const headwearFilterTemplate = document.getElementById('headwear-filter-template');
 
+const defualtItems = [];
+
 const querySnapshot = await getDocs(q);
 querySnapshot.forEach((doc) => {
   // doc.data() is never undefined for query doc snapshots
-  console.log(doc.id, " => ", doc.data());
   defualtItems.push(doc.data());
-  items.push(doc.data());
 });
 
 const createItemBox = (data) => {
@@ -63,17 +68,20 @@ const createItemBox = (data) => {
         </div>
         <div class="item-box__contents">
             <div class="item-box__content">
+                <span">${data.shopTitle}</span>
+            </div>
+            <div class="item-box__content">
                 <span>${data.title}</span>
             </div>
             <div class="item-box__content">
-                <span>${data.price}</span>
+                <span>${data.price.toLocaleString('ko-KR')}원</span>
             </div>
         </div>
     `;
     return box;
 }
 
-const renderItems = () => {
+const renderItems = (items) => {
     itemsList.innerHTML = '';
     items.forEach(item => {
         const itemEl = createItemBox(item);
@@ -84,6 +92,7 @@ const renderItems = () => {
 categoryFilter.addEventListener('click', (event) => {
     let selected = '';
     let applyBtn;
+    let items;
     event.preventDefault();
     if (event.target.className !== 'category-filter__btn') {
         return;
@@ -109,6 +118,10 @@ categoryFilter.addEventListener('click', (event) => {
         headwearFilterTemplate.classList.toggle('invisible');
         applyBtn = headwearFilterTemplate.querySelector('button');
         selected = 'headwear';
+    } else if (event.target.textContent === 'Acc') {
+        selected = 'acc';
+    } else {
+        selected = 'bag';
     }
     categoryBtns.forEach(btn => {
         if (btn.textContent != event.target.textContent) {
@@ -117,19 +130,19 @@ categoryFilter.addEventListener('click', (event) => {
     })
     sorted *= -1;
     if (sorted > 0) {
-        items = items.filter(item => item.category === selected);
-        renderItems();
+        items = defualtItems.filter(item => item.category === selected);
+        renderItems(items);
     } else {
         items = [...defualtItems];
-        renderItems();
+        renderItems(items);
     }
 
     applyBtn.addEventListener('click', async event => {
         event.preventDefault();
         const inputedSizeFilter = await returnSizeFilterInputs();
 
-        items = await filterItems(inputedSizeFilter);
-        renderItems();
+        const filteredItems = await filterItems(items, inputedSizeFilter);
+        renderItems(filteredItems);
     })
     
 
@@ -149,26 +162,98 @@ function returnSizeFilterInputs() {
     return promise;
 }
 
-function filterItems(inputedSizeFilter) {
-    console.log(inputedSizeFilter);
-    items = [...defualtItems];
+function filterItems(items, inputedSizeFilter) {
+    let selectedItems = [...items];
     const promise = new Promise ((resolve, reject) => {
         for(let i = 0; i < inputedSizeFilter.length; i+= 2) {
             if (isNaN(inputedSizeFilter[i]) || isNaN(inputedSizeFilter[i+1])) {
                 continue;
             }
-            items = items.filter(item => {
+            selectedItems = selectedItems.filter(item => {
                 if (item.size[i] >= inputedSizeFilter[i] && item.size[i] <= inputedSizeFilter[i+1]) {
                     return item;
                 }
             });
         }
-        resolve(items);
+        resolve(selectedItems);
     })
     return promise;
 }
 
-renderItems();
+const brandElements = [];
+const brandPopUpElements = [];
+const brandsList = document.querySelector('.brands');
+
+if (!localStorage.getItem('docs')) {
+    const docs = [];
+    const qb = query(collection(db, "allBrands"), orderBy('category', 'asc'));
+    const querybSnapshot = await getDocs(qb);
+    querybSnapshot.forEach((doc) => {
+        docs.push(JSON.stringify(doc.data()));
+    });
+    const docs2 = JSON.stringify(docs);
+    localStorage.setItem('docs', docs2);
+}
+
+const brands = JSON.parse(localStorage.getItem('docs'));
+const brandDocs = brands.map(brand => JSON.parse(brand));
+brandDocs.forEach(doc => {
+    const brand = document.createElement('div');
+    brand.className = `brands__brand`;
+    brand.innerHTML = `<a href="./brand_page.html" class="${doc.category}">${doc.title}</a>`
+    brandsList.append(brand);
+    brandElements.push(brand);
+    const El = createPopUpElement(doc);
+    brandPopUpElements.push({
+        El,
+        title: doc.title
+    });
+})
+
+for(let i = 0; i < brandElements.length; i++) {
+    const brandAnchor = brandElements[i].querySelector('a');
+    brandAnchor.addEventListener('click', e => {
+        e.preventDefault();
+        const tmp = e.target.closest('.brands__brand a');
+        if (!tmp) {
+            return;
+        }
+        const title = tmp.innerText;
+        location.href = `brand_page.html?${title}`;
+    })
+    if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|KAKAO|KAKAOTALK|Opera Mini/i.test(ua) || !ua || ua.indexOf('KAKAO') > -1)) {
+        break;
+    }
+    brandAnchor.addEventListener('mouseover', async e => {
+        const prevEl = document.querySelector('.brand-popUp');
+        if (prevEl) {
+            prevEl.remove();
+        }
+        const tmp = e.target.closest('.brands__brand a');
+        if (!tmp) {
+            return;
+        }
+        const title = tmp.innerText;
+        const El = brandPopUpElements.find(obj => obj.title === title);
+        brandElements[i].after(El.El);
+        console.log(window.pageYOffset + brandAnchor.getBoundingClientRect().top);
+        El.El.style.top = `${window.pageYOffset + brandAnchor.getBoundingClientRect().top - 90}px`;
+    })
+    brandAnchor.addEventListener('mouseout', e => {
+        const El = document.querySelector('.brand-popUp');
+        if (!El) {
+            return;
+        }
+        El.remove();
+    })
+}
+
+renderItems(defualtItems);
+
+menuBtn.addEventListener('click', e => {
+    brandsList.classList.toggle('clicked');
+    console.log(brandsList.classList)
+})
 
 
 async function itemClickHandler(e) {
@@ -191,17 +276,6 @@ async function itemClickHandler(e) {
     
 }
 
-
-// category: "pants"
-// description: "just car"
-// imgs: (4) ['https://firebasestorage.googleapis.com/v0/b/advint…=media&token=d55a6447-5581-4ad6-ac9d-c9424d0887ae', 'https://firebasestorage.googleapis.com/v0/b/advint…=media&token=8c3b93da-c923-451f-9e9d-6ba9658c0b45', 'https://firebasestorage.googleapis.com/v0/b/advint…=media&token=e024ba2f-1f00-45c1-b15d-99a32b978ae5', 'https://firebasestorage.googleapis.com/v0/b/advint…=media&token=94c29787-d238-4e19-94b8-a548e7cfdeb8']
-// price: "1000000"
-// shopTitle: "승훈이네"
-// size: (5) [10, 20, 30, 40, 50]
-// sml: "m"
-// timestamp: os {seconds: 1684499321, nanoseconds: 856000000}
-// title: "cars"
-
 function createItemModalElement(item) {
     const modalWrapper = document.createElement('div');
     modalWrapper.className = 'item-modal-wrapper';
@@ -209,15 +283,7 @@ function createItemModalElement(item) {
     <div class="item-modal">
         <div class="item-modal__img">
             <div class="slider">
-                <input type="radio" name="slide" id="slide1" checked>
-                <input type="radio" name="slide" id="slide2">
-                <input type="radio" name="slide" id="slide3">
-                <input type="radio" name="slide" id="slide4">
                 <div class="bullets">
-                    <label for="slide1">&nbsp;</label>
-                    <label for="slide2">&nbsp;</label>
-                    <label for="slide3">&nbsp;</label>
-                    <label for="slide4">&nbsp;</label>
                 </div>
             </div>
         </div>
@@ -227,29 +293,45 @@ function createItemModalElement(item) {
             </div>
             <ul>
                 <li>
+                    <div class="item-modal__info__contents">${item.shopTitle}</div>
+                </li>
+                <li>
                     <div class="item-modal__info__contents" id="title">${item.title}</div>
                 </li>
                 <li>
-                    <div class="item-modal__info__contents" id="price">${item.price}원</div>
+                    <div class="item-modal__info__contents" id="price">${item.price.toLocaleString('ko-KR')}원</div>
                 </li>
                 <li>
                     <p>${item.description}</p>
                 </li>
             </ul>
-            <button>Buy</button>
+            <button onclick="window.open('${item.productLink}')" target="_blank">Buy</button>
         </div>
     </div>
     `
+    console.log(item.imgs.length);
     const bullets = modalWrapper.querySelector('.bullets');
+    for(let i = 0; i < item.imgs.length; i++) {
+        const radioEl = createRadioElement(i);
+        const labelEl = createLabelElement(i);
+        bullets.before(radioEl);
+        bullets.append(labelEl);
+    }
     const imgHoldr = createImgHolderElement(item.imgs);
     bullets.before(imgHoldr);
-    const buyBtn = modalWrapper.querySelector('.item-modal button');
+    const ul = modalWrapper.querySelector('.item-modal__info ul');
     const sizeTable = createSizeTableElement(item);
-    buyBtn.before(sizeTable);
+    ul.append(sizeTable);
 
     const itemModalExit = modalWrapper.querySelector('#exit');
     itemModalExit.addEventListener('click', e => {
         modalWrapper.remove();
+    })
+
+    modalWrapper.addEventListener('click', e => {
+        if (!e.target.closest('.item-modal')) {
+            itemModalExit.click();
+        }
     })
 
     return modalWrapper;
@@ -258,56 +340,53 @@ function createItemModalElement(item) {
 function createSizeTableElement(item) {
     const sizeTable = document.createElement('table');
     sizeTable.className = 'item-modal__info__size';
-    console.log(item.category);
     if (item.category === 'top' || item.category === 'outer') {
         sizeTable.innerHTML = `
-            <th>총장</th>
-            <th>어깨너비</th>
+            <th>총장</th>
+            <th>어깨너비</th>
             <th>가슴단면</th>
             <th>소매길이</th>
             <tr>
-                <td>${item.size[0]}cm</td>
-                <td>${item.size[1]}cm</td>
-                <td>${item.size[2]}cm</td>
-                <td>${item.size[3]}cm</td>
+                <td>${isNaN(item.size[0]) ? '-' : item.size[0]}cm</td>
+                <td>${isNaN(item.size[1]) ? '-' : item.size[1]}cm</td>
+                <td>${isNaN(item.size[2]) ? '-' : item.size[2]}cm</td>
+                <td>${isNaN(item.size[3]) ? '-' : item.size[3]}cm</td>
             </tr>
         `;
     } else if (item.category === 'pants') {
-        console.log('thisthis');
         sizeTable.innerHTML = `
-            <th>총장</th>
-            <th>허리단면</th>
+            <th>총장</th>
+            <th>허리</th>
             <th>허벅지단면</th>
             <th>밑위</th>
             <th>밑단단면</th>
             <tr>
-                <td>${item.size[0]}cm</td>
-                <td>${item.size[1]}cm</td>
-                <td>${item.size[2]}cm</td>
-                <td>${item.size[3]}cm</td>
-                <td>${item.size[4]}cm</td>
+                <td>${isNaN(item.size[0]) ? '-' : item.size[0]}cm</td>
+                <td>${isNaN(item.size[1]) ? '-' : item.size[1]}inch</td>
+                <td>${isNaN(item.size[2]) ? '-' : item.size[2]}cm</td>
+                <td>${isNaN(item.size[3]) ? '-' : item.size[3]}cm</td>
+                <td>${isNaN(item.size[4]) ? '-' : item.size[4]}cm</td>
             </tr>
         `;
     } else if (item.category === 'shoes') {
         sizeTable.innerHTML = `
-            <th>사이즈</th>
+            <th>사이즈</th>
             <tr>
-                <td>${item.size[0]}cm</td>
+                <td>${isNaN(item.size[0]) ? '-' : item.size[0]}cm</td>
             </tr>
         `;
     } else if (item.category === 'headwear') {
         sizeTable.innerHTML = `
-            <th>머리둘레</th>
-            <th>깊이</th>
+            <th>머리둘레</th>
+            <th>깊이</th>
             <th>챙길이</th>
             <tr>
-                <td>${item.size[0]}cm</td>
-                <td>${item.size[1]}cm</td>
-                <td>${item.size[2]}cm</td>
+            <td>${isNaN(item.size[0]) ? '-' : item.size[0]}cm</td>
+            <td>${isNaN(item.size[1]) ? '-' : item.size[1]}cm</td>
+            <td>${isNaN(item.size[2]) ? '-' : item.size[2]}cm</td>
             </tr>
         `;
     }
-    console.log(sizeTable);
     return sizeTable;
 }
 
@@ -323,16 +402,46 @@ function createImgHolderElement(imgs) {
     return holder;
 }
 
-const brand = document.querySelector('#beesknees a');
-brand.addEventListener('mouseover', e => {
-    const tmp = document.getElementById('brand-template').innerHTML;
+function createRadioElement(idx) {
+    const El = document.createElement('input');
+    El.type = 'radio';
+    El.name = 'slide';
+    El.id = `slide${idx + 1}`;
+    if (idx == 0) {
+        El.checked = true;
+    }
+    return El;
+}
+
+function createLabelElement(idx) {
+    const El = document.createElement('label');
+    El.htmlFor = `slide${idx + 1}`;
+    El.innerText = '';
+    return El;
+}
+
+function createPopUpElement(info) {
     const El = document.createElement('div');
-    El.className = 'brand-popUp';
-    El.innerHTML = tmp;
-    brand.after(El);
-})
-brand.addEventListener('mouseout', e => {
-    console.log('mouseout');
-    const El = document.querySelector('.brand-popUp');
-    El.remove();
-})
+    El.className = `brand-popUp ${info.category}Bk`;
+    El.innerHTML = `
+    <div class="brand-popUp__img">
+            <img src="${info.imgs[0]}" />
+        </div>
+        <div class="brand-popUp__info">
+            <div>
+                <span>Shop: ${info.title}</span>
+            </div>
+            <div class="brand-popUp__keywords">
+            </div>
+        </div>
+    `;
+    const keywords = El.querySelector('.brand-popUp__keywords');
+    const hashs = [...info.hashTags.split(',')];
+    for(let i = 0; i < hashs.length; i++) {
+        const hash = document.createElement('span');
+        hash.style.display = 'flex';
+        hash.innerText = `#${hashs[i]}`;
+        keywords.append(hash);
+    }
+    return El;
+}

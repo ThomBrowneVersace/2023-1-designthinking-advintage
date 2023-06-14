@@ -39,3 +39,30 @@
     align-items: center;
     margin: 0rem 0.5rem;
 }
+
+#menu { display: none; }
+#check-btn {
+    display: none;
+}
+.nav label {
+    display: none;
+}
+
+@media (max-width: 767px){
+    .nav {
+        padding: 1.5rem 0.5rem;
+        align-items: center;
+        color: white;
+    }
+
+    .nav label {
+        display: flex;
+    }
+    #menu {
+        display: flex;
+    }
+
+    .nav__btn {
+        margin: 0rem 0.3rem;
+    }
+}

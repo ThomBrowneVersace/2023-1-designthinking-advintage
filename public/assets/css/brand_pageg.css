@@ -1,0 +1,352 @@
+@import 'reset.css';
+
+@import './components/nave.css';
+@import './components/filtere.css';
+@import './components/item-modali.css';
+
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    unicode-range: U+AC00-D7A3;
+}
+
+body {
+    width: 100vw;
+    height: 300vh;
+    color: black;
+    font-family: 'EB Garamond', 'NanumSquareNeo-Variable', serif;
+    background-color: #e3e3e3;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+main > div:first-child {
+    width: 15%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+main > div:nth-child(2) {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.nav__btn {
+    font-size: 1.8rem;
+}
+
+.AD {
+    width: 15%;
+}
+
+.brands {
+    width: 50%;
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    box-sizing: border-box;
+}
+
+.brands > span {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.brands__help {
+    margin: 10% 0%;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.brands__brand {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    color: red;
+    padding: 3% 0%;
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.brands__brand:last-child {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.brands__brand a {
+    text-decoration: none;
+}
+
+.item-wrapper {
+    display: grid;
+    align-items: center;
+	grid-template-columns: repeat(4, 13rem);
+    width: 100%;
+    justify-content: center;
+    overflow-y: scroll;
+    left: 10%;
+} 
+
+.item-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    width: 12rem;
+    height: 22.5rem;
+}
+
+.item-box__img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 12rem;
+    height: 15rem;
+}
+
+.item-box__img img {
+    max-width: 12rem;
+    max-height: 15rem;
+    width: 100%;
+}
+
+.item-box__contents {
+    width: 100%;
+    height: 7.5rem;
+    color: black;
+    box-sizing: border-box;
+}
+
+.item-box__content {
+    display: flex;
+    width: 100%;
+    margin: 0.4rem 0rem;
+}
+
+.invisible {
+    display: none;
+}
+
+.brand-popUp {
+    display: flex;
+    flex-direction: row;
+    width: 30rem;
+    height: 15rem;
+    color: white;
+    background-color: black;
+    border-radius: 0.5rem;
+    margin-left: 1rem;
+    padding: 0.5rem;
+    font-size: 1.7rem;
+    position: absolute;
+    z-index: 99;
+    left: 15%;
+}
+
+.brand-popUp__img {
+    width: 15rem;
+    height: 15rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.brand-popUp__img img {
+    max-width: 15rem;
+    max-height: 15rem;
+    box-sizing: border-box;
+}
+
+.brand-popUp__info {
+    display: flex;
+    flex-direction: column;
+    width: 15rem;
+    padding: 0.5rem;
+    box-sizing: border-box;
+}
+
+.brand-popUp__info > div {
+    margin: 0.5rem 0rem;
+}
+
+.brand-popUp__keywords {
+    font-size: 1rem;
+}
+
+.brand-popUp__keywords span {
+    margin: 0.5rem;
+}
+
+.brand-popUp img {
+    width: 100%;
+}
+
+.street {
+    color: #d4aa39 !important;
+}
+
+.gorpcore {
+    color: #6a98b7 !important;
+}
+
+.casual {
+    color: #84b2a2 !important;
+}
+
+.vintage {
+    color: #65574f !important;
+}
+
+.streetBk {
+    background-color: #e3e3e3 !important;
+}
+
+.gorpcoreBk {
+    background-color: #e3e3e3 !important;
+}
+
+.casualBk {
+    background-color: #e3e3e3 !important;
+}
+
+.vintageBk {
+    background-color: #e3e3e3 !important;
+}
+
+.clicked {
+    left: 0% !important;
+    transition: 0.5s ease-in-out;
+}
+
+#brand-img {
+    padding: 3rem 0rem;
+    width: 80%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#brand-img img {
+    width: 90%;
+}
+
+.shop-title {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+}
+
+#brand-img h2 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.shop-title a:after {    
+    background: none repeat scroll 0 0 transparent;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 2px;
+    left: 50%;
+    position: relative;
+    background: black;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0;
+}
+.shop-title a:hover:after { 
+    width: 100%; 
+    left: 0; 
+}
+
+.item-modal-wrapper {
+    position: fixed;
+    top: 0%;
+    overflow: hidden;
+}
+
+@media (max-width: 767px){
+    .search-items {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 0rem;
+        width: 100%;
+        overflow-y: scroll;
+        box-sizing: border-box;
+    }
+    main > div:nth-child(2) {
+        width: 100%;
+    }
+    .item-wrapper {
+        display: grid;
+        align-items: center;
+        justify-content: center;
+        grid-template-columns: repeat(2, 12rem);
+        width: 100%;
+        overflow: scroll;
+        left: 10%;
+    }
+
+    .filter {
+        justify-content: left;
+        align-items: center;
+        width: 80%;
+        z-index: 0;
+    }
+    
+    .size-filter {
+        display: flex;
+        margin: 0rem 0.5rem;
+        height: 2rem;
+        min-width: fit-content;
+        align-items: center;
+    }
+    
+    .size-filter input {
+        width: 3rem;
+        height: 1rem;
+    }
+    main > div:first-child {
+        display: flex;
+        z-index: 999;
+        background-color: white;
+    }
+    .brands {
+        position: absolute;
+        left: -30%;
+        width: 30%;
+        height: fit-content;
+        background-color: white;
+        box-sizing: content-box;
+    }
+    .AD {
+        display: none;
+    }
+    .brand-popUp {
+        left: 60%;
+    }
+}
